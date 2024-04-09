@@ -6,12 +6,11 @@ on:
   pull_request:
     branches: [ "dev" ]
 
-env:
-  AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: s3-dyslexia
-  CODE_DEPLOY_APPLICATION_NAME: dyslexia-codedeploy
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: dyslexia-deploy-group
-
+#env:
+#  AWS_REGION: ap-northeast-2
+#  S3_BUCKET_NAME: s3-dyslexia
+#  CODE_DEPLOY_APPLICATION_NAME: dyslexia-codedeploy
+#  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: dyslexia-deploy-group
 
 permissions:
   contents: read
@@ -82,9 +81,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           port: ${{ secrets.EC2_PORT }}
-          #source: "*.jar"
-          #target: "/home/ubuntu/app"
-          script: whoami
+          source: "*.jar"
+          target: "/home/ubuntu/app"
+          #script: whoami
 
       # EC2에 SSH로 배포 커맨드를 입력하는 step
       - name: Deploy SSH
