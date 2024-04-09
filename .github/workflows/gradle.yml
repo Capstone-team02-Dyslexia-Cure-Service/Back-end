@@ -82,8 +82,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           port: ${{ secrets.EC2_PORT }}
-          source: "*.jar"
-          target: "/home/ubuntu/app"
+          #source: "*.jar"
+          #target: "/home/ubuntu/app"
+          script: whoami
 
       # EC2에 SSH로 배포 커맨드를 입력하는 step
       - name: Deploy SSH
