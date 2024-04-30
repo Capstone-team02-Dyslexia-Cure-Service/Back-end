@@ -6,12 +6,11 @@ on:
   pull_request:
     branches: [ "dev" ]
 
-env:
-  AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: s3-dyslexia
-  CODE_DEPLOY_APPLICATION_NAME: dyslexia-codedeploy
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: dyslexia-deploy-group
-
+#env:
+#  AWS_REGION: ap-northeast-2
+#  S3_BUCKET_NAME: s3-dyslexia
+#  CODE_DEPLOY_APPLICATION_NAME: dyslexia-codedeploy
+#  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: dyslexia-deploy-group
 
 permissions:
   contents: read
@@ -62,18 +61,6 @@ jobs:
           path: |
             build/libs/*.jar
 
-      - name: Start redis-server
-        uses: appleboy/scp-action@master
-        with:
-          key: ${{ secrets.EC2_KEY }}
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          target: /home/ubuntu/app/spring_source
-          source: .
-          command: sudo systemctl start redis-server
-
-
-
 
   deploy:
     name: CD with SSH
@@ -93,6 +80,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
+          port: ${{ secrets.EC2_PORT }}
           source: "*.jar"
           target: "/home/ubuntu/app"
 
