@@ -39,7 +39,14 @@ dependencies {
 
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
 	implementation 'org.jetbrains:annotations:24.0.0'
+
+	//swagger
 	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.3.0'
+
+	//AWS S3 SDK
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
+
 }
 
 tasks.named('test') {
