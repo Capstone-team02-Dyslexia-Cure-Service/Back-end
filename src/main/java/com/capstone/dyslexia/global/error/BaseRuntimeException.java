@@ -11,4 +11,8 @@ public abstract class BaseRuntimeException extends RuntimeException {
         this.errorCode = errorCode;
         this.message = message;
     }
+
+    public BaseRuntimeException(final ErrorCode errorCode) {
+        this(errorCode, null);
+    }
 }

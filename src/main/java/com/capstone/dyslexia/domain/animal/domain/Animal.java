@@ -1,6 +1,7 @@
 package com.capstone.dyslexia.domain.animal.domain;
 
 import com.capstone.dyslexia.domain.member.domain.Member;
+import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,14 +26,11 @@ public class Animal extends BaseEntity {
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "hunger_timer")
     private DateTime hungerTimer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "store_id")
+    private Store store;
 
 }

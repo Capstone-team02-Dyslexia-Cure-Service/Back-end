@@ -47,21 +47,4 @@ public class ApiResponseTemplate<T> {
         return new ApiResponseTemplate<>(201, "Created", data);
     }
 
-    /*
-    public static ApiResponseTemplate ok() {
-        return new ApiResponseTemplate(200, "OK", null);
-    }
-
-    public static ApiResponseTemplate ok(String message) {
-        return new ApiResponseTemplate(200, message, null);
-    }
-
-    public static ApiResponseTemplate ok(Object data) {
-        return new ApiResponseTemplate(200, "OK", data);
-    }
-
-    public static ApiResponseTemplate ok(String message, Object data) {
-        return new ApiResponseTemplate(200, message, data);
-    }
-    */
 }

@@ -1,7 +1,9 @@
 package com.capstone.dyslexia.domain.member.domain;
 
-import com.capstone.dyslexia.domain.animal.domain.Animal;
+import com.capstone.dyslexia.domain.dateAchievement.domain.DateAchievement;
+import com.capstone.dyslexia.domain.member.dto.request.MemberUpdateRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
+import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,10 +35,32 @@ public class Member extends BaseEntity {
     private Double level;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @JoinColumn(name = "animal_list")
-    private List<Animal> animalList;
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JoinColumn(name = "solving_record_list")
     private List<SolvingRecord> solvingRecordList;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JoinColumn(name = "date_achievement_list")
+    private List<DateAchievement> dateAchievementList;
+
+    public void updateMember(MemberUpdateRequestDto memberUpdateRequestDto) {
+        this.email = memberUpdateRequestDto.getEmail();
+        this.password = memberUpdateRequestDto.getPassword();
+        this.age = memberUpdateRequestDto.getAge();
+    }
+
+    public void updateMemberLevel(Double level) {
+        this.level = level;
+    }
+
+    public void addSolvingRecordList(SolvingRecord solvingRecord) {
+        this.solvingRecordList.add(solvingRecord);
+    }
+
+    public void addDateAchievementList(DateAchievement dateAchievement) {
+        this.dateAchievementList.add(dateAchievement);
+    }
 }
