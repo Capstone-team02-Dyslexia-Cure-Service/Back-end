@@ -35,15 +35,12 @@ public class Member extends BaseEntity {
     private Double level;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @JoinColumn(name = "solving_record_list")
     private List<SolvingRecord> solvingRecordList;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    @JoinColumn(name = "store_id")
     private Store store;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @JoinColumn(name = "date_achievement_list")
     private List<DateAchievement> dateAchievementList;
 
     public void updateMember(MemberUpdateRequestDto memberUpdateRequestDto) {

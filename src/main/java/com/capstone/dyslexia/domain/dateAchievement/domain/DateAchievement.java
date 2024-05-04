@@ -25,8 +25,7 @@ public class DateAchievement extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "date_achievement", cascade = CascadeType.ALL)
-    @JoinColumn(name = "solving_record_list")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<SolvingRecord> solvingRecordList;
 
     @Column(name = "achievement_date")

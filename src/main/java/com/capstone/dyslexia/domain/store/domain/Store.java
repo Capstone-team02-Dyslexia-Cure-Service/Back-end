@@ -26,7 +26,6 @@ public class Store extends BaseEntity {
 
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-    @JoinColumn(name = "having_animal_list")
     private List<Animal> havingAnimalList;
 
 }

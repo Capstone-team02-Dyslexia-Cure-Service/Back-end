@@ -12,7 +12,6 @@ public class MemberSignInRequestDto {
     private String email;
 
     @NotBlank(message = "PW는 공백이면 안 됩니다.")
-    @Max(value = 100, message = "100자 이하로 써 주세요.")
     private String password;
 
 }
