@@ -9,6 +9,7 @@ import com.capstone.dyslexia.domain.member.dto.response.MemberResponseDto;
 import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.error.exceptions.UnauthorizedException;
+import com.capstone.dyslexia.global.payload.ErrorResponseTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,9 +45,14 @@ public class MemberService {
                 .build();
     }
 
+    public Boolean validMemberId(Long memberId) {
+        return memberRepository.existsById(memberId);
+    }
+
     public MemberResponseDto signIn(MemberSignInRequestDto memberSignInRequestDto) {
         Member member = memberRepository.findByEmail(memberSignInRequestDto.getEmail())
                 .orElseThrow(() -> new UnauthorizedException(INVALID_SIGNIN, "유효하지 않은 이메일입니다."));
+
         if (!member.getPassword().equals(memberSignInRequestDto.getPassword())) {
             throw new UnauthorizedException(INVALID_SIGNIN, "유효하지 않은 비밀번호입니다.");
         }

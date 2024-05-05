@@ -1,11 +1,11 @@
 package com.capstone.dyslexia.domain.animal.domain;
 
-import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.joda.time.DateTime;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +27,7 @@ public class Animal extends BaseEntity {
     private String nickname;
 
     @Column(name = "hunger_timer")
-    private DateTime hungerTimer;
+    private LocalDateTime hungerTimer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
