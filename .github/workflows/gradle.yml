@@ -81,8 +81,9 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          source: "*.jar"
+          source: "."
           target: "/home/ubuntu/app"
+          args: "-r" # Recursive copy to copy entire directory
 
       # EC2에 SSH로 배포 커맨드를 입력하는 step
       - name: Deploy SSH
