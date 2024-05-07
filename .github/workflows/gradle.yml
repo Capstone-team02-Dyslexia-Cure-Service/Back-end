@@ -36,7 +36,7 @@ jobs:
       - name: Copy secret
         env:
           OCCUPY_SECRET: ${{ secrets.OCCUPY_SECRET_DEV }}
-          OCCUPY_SECRET_DIR: .src/main/resources
+          OCCUPY_SECRET_DIR: ./src/main/resources
 
           OCCUPY_SECRET_DIR_FILE_NAME: application.yml
         run: |
