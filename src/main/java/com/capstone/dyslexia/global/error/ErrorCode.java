@@ -47,7 +47,8 @@ public enum ErrorCode {
     /**
      * 503 Service Unavailable Error
      */
-    SERVICE_UNAVAILABLE(5000);
+    SERVICE_UNAVAILABLE(5000),
+    DATA_NOT_EXIEST(5005);
 
     private final int code;
 

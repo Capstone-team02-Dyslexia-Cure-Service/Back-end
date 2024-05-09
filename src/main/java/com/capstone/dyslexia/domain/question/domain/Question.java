@@ -29,6 +29,4 @@ public class Question extends BaseEntity {
     @Column(name = "video_path")
     private String videoPath;
 
-    @Column(name = "difficulty")
-    private Double difficulty;
 }

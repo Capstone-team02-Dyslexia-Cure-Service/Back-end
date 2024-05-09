@@ -9,7 +9,6 @@ import com.capstone.dyslexia.domain.member.dto.response.MemberResponseDto;
 import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.error.exceptions.UnauthorizedException;
-import com.capstone.dyslexia.global.payload.ErrorResponseTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,10 +44,6 @@ public class MemberService {
                 .build();
     }
 
-    public Boolean validMemberId(Long memberId) {
-        return memberRepository.existsById(memberId);
-    }
-
     public MemberResponseDto signIn(MemberSignInRequestDto memberSignInRequestDto) {
         Member member = memberRepository.findByEmail(memberSignInRequestDto.getEmail())
                 .orElseThrow(() -> new UnauthorizedException(INVALID_SIGNIN, "유효하지 않은 이메일입니다."));
@@ -66,8 +61,7 @@ public class MemberService {
     }
 
     public MemberResponseDto updateMember(Long memberId, MemberUpdateRequestDto memberUpdateRequestDto) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "잘못된 Member ID 입니다."));
+        Member member = memberValidation(memberId);
 
         member.updateMember(memberUpdateRequestDto);
         return MemberResponseDto.builder()
@@ -80,8 +74,7 @@ public class MemberService {
     }
 
     public MemberResponseDto findMemberById(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "잘못된 Member ID 입니다."));
+        Member member = memberValidation(memberId);
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .email(member.getEmail())
@@ -89,6 +82,11 @@ public class MemberService {
                 .age(member.getAge())
                 .level(member.getLevel())
                 .build();
+    }
+
+    public Member memberValidation(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "잘못된 Member ID 입니다."));
     }
 
 }

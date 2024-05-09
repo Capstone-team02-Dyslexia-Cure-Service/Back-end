@@ -3,7 +3,9 @@ package com.capstone.dyslexia.domain.question.dto.request;
 import com.capstone.dyslexia.domain.question.domain.QuestionType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 
+@Getter
 public class CreateQuestionRequestDto {
 
     @NotNull(message = "Question Type은 필수입니다.")
@@ -18,6 +20,4 @@ public class CreateQuestionRequestDto {
     @NotBlank(message = "발음 예시 영상은 꼭 필요합니다.")
     private String videoPath;
 
-    @NotNull(message = "문제 난이도는 필수입니다.")
-    private Double difficulty;
 }
