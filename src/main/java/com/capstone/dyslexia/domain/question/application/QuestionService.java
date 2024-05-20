@@ -4,28 +4,20 @@ import com.capstone.dyslexia.domain.member.application.MemberService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.member.domain.respository.MemberRepository;
 import com.capstone.dyslexia.domain.question.domain.Question;
-import com.capstone.dyslexia.domain.question.domain.QuestionType;
 import com.capstone.dyslexia.domain.question.domain.respository.QuestionRepository;
-import com.capstone.dyslexia.domain.question.dto.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.dto.request.CreateQuestionRequestDto;
 import com.capstone.dyslexia.domain.question.dto.request.QuestionListRequestDto;
-import com.capstone.dyslexia.domain.question.dto.request.RandomQuestionRequestDto;
 import com.capstone.dyslexia.domain.question.dto.response.CreateQuestionResponseDto;
 import com.capstone.dyslexia.domain.question.dto.response.QuestionResponseDto;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.error.exceptions.ServiceUnavailableException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.capstone.dyslexia.domain.question.domain.QuestionType.SENTENCE;
-import static com.capstone.dyslexia.domain.question.domain.QuestionType.WORD;
-import static com.capstone.dyslexia.domain.question.dto.QuestionResponseType.READ_SENTENCE;
 import static com.capstone.dyslexia.global.error.ErrorCode.DATA_NOT_EXIEST;
 import static com.capstone.dyslexia.global.error.ErrorCode.ROW_DOES_NOT_EXIST;
 
@@ -88,6 +80,8 @@ public class QuestionService {
 
         List<QuestionResponseDto> questionResponseDtoList = new ArrayList<>();
 
+        Long QuestionDBSize = questionRepository.count();
+
 
 
 
@@ -125,4 +119,7 @@ public class QuestionService {
 
         return questionResponseDtoList;
     }
+
+
+
 }

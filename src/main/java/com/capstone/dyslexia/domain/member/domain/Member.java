@@ -1,6 +1,7 @@
 package com.capstone.dyslexia.domain.member.domain;
 
 import com.capstone.dyslexia.domain.dateAchievement.domain.DateAchievement;
+import com.capstone.dyslexia.domain.level.domain.Level;
 import com.capstone.dyslexia.domain.member.dto.request.MemberUpdateRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
 import com.capstone.dyslexia.domain.store.domain.Store;

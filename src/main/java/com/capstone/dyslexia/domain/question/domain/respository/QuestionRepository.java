@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    public Long countByQuestionType(QuestionType questionType);
+    Long countByQuestionType(QuestionType questionType);
 
     Page<Question> findAllByQuestionType(QuestionType questionType, PageRequest pageRequest);
 }
