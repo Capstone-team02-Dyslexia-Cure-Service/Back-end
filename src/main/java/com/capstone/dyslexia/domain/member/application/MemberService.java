@@ -60,6 +60,7 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional
     public MemberResponseDto updateMember(Long memberId, MemberUpdateRequestDto memberUpdateRequestDto) {
         Member member = memberValidation(memberId);
 

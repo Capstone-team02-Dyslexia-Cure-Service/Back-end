@@ -83,7 +83,7 @@ public class QuestionService {
         return createQuestionResponseDtoList;
     }
 
-    public List<QuestionResponseDto> getRandomQuestionList(Long memberId, RandomQuestionRequestDto randomQuestionRequestDto) {
+    public List<QuestionResponseDto> getRandomQuestionList(Long memberId, Long numOfQuestions) {
         Member member = memberService.memberValidation(memberId);
 
         List<QuestionResponseDto> questionResponseDtoList = new ArrayList<>();
@@ -91,6 +91,7 @@ public class QuestionService {
 
 
 
+        /*
         for (QuestionResponseType questionResponseType : randomQuestionRequestDto.getResponseTypeList()) {
             QuestionType questionType = questionResponseType.equals(READ_SENTENCE) ? SENTENCE : WORD;
 
@@ -117,6 +118,8 @@ public class QuestionService {
 
             questionResponseDtoList.add(questionResponseDto);
         }
+
+         */
 
         if (questionResponseDtoList.isEmpty()) throw new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다.");
 

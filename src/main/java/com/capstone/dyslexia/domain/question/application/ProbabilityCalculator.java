@@ -12,6 +12,7 @@ import static com.capstone.dyslexia.domain.question.dto.QuestionResponseType.*;
 
 public class ProbabilityCalculator {
 
+    /*
     // 레벨 구간 정의
 
     // 주어진 레벨에 따라 확률을 계산하여 EnumMap 반환
@@ -70,4 +71,6 @@ public class ProbabilityCalculator {
         // 이 코드가 실행되면 오류입니다. 확률의 합이 1이 아닌 경우가 있습니다.
         throw new IllegalStateException("Probabilities do not sum up to 1");
     }
+
+     */
 }

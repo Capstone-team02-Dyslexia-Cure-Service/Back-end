@@ -10,6 +10,7 @@ import com.capstone.dyslexia.domain.question.dto.response.QuestionResponseDto;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +42,8 @@ public class QuestionController {
     @PostMapping("/random_list")
     public ApiResponseTemplate<List<QuestionResponseDto>> getRandomQuestionList(
             @RequestHeader Long memberId,
-            @Valid @RequestBody RandomQuestionRequestDto randomQuestionRequestDto
+            @Positive @RequestHeader Long numOfQuestions
     ) {
-        return ApiResponseTemplate.ok(questionService.getRandomQuestionList(memberId, randomQuestionRequestDto));
+        return ApiResponseTemplate.ok(questionService.getRandomQuestionList(memberId, numOfQuestions));
     }
 }
