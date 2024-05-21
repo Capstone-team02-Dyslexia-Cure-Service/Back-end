@@ -3,12 +3,12 @@ package com.capstone.dyslexia.domain.solvingRecord.dto.response;
 import lombok.Builder;
 
 @Builder
-public class SolvingRecordResponseDto {
+public class SolvingRecordCreateResponseDto {
 
-    private Long id;
+    private Long questionId;
 
     private Boolean isCorrect;
 
-    private Long questionId;
+    private String answer;
 
 }

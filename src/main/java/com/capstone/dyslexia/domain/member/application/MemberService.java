@@ -1,5 +1,6 @@
 package com.capstone.dyslexia.domain.member.application;
 
+import com.capstone.dyslexia.domain.level.application.LevelRangeService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.member.domain.respository.MemberRepository;
 import com.capstone.dyslexia.domain.member.dto.request.MemberSignInRequestDto;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import static com.capstone.dyslexia.global.error.ErrorCode.INVALID_SIGNIN;
 import static com.capstone.dyslexia.global.error.ErrorCode.ROW_DOES_NOT_EXIST;
 
@@ -22,6 +24,8 @@ import static com.capstone.dyslexia.global.error.ErrorCode.ROW_DOES_NOT_EXIST;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final LevelRangeService levelRangeService;
 
     @Transactional
     public MemberResponseDto signUp(MemberSignUpRequestDto memberSignUpRequestDto) {

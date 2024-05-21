@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponseTemplate handleBadRequestException(BadRequestException  exception) {
+    public ErrorResponseTemplate handleBadRequestException(BadRequestException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
         return ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage());
     }

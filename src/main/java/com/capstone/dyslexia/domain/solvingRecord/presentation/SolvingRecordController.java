@@ -1,8 +1,7 @@
 package com.capstone.dyslexia.domain.solvingRecord.presentation;
 
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
-import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordCreateResponseDto;
-import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordListRequestDto;
+import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordCreateResponseDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
@@ -29,19 +28,11 @@ public class SolvingRecordController {
         return ApiResponseTemplate.ok(solvingRecordService.findSolvingRecordById(memberId, solvingRecordId));
     }
 
-    @PostMapping("/create")
-    public ApiResponseTemplate<SolvingRecordCreateResponseDto> createSolvingRecord(
-            @RequestHeader Long memberId,
-            @Valid @RequestBody SolvingRecordRequestDto solvingRecordRequestDto
-    ) {
-        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecord(memberId, solvingRecordRequestDto));
-    }
-
     @PostMapping("/create/list")
     public ApiResponseTemplate<List<SolvingRecordCreateResponseDto>> createSolvingRecordList(
             @RequestHeader Long memberId,
-            @Valid @RequestBody SolvingRecordListRequestDto solvingRecordListRequestDto
+            @Valid @RequestBody List<SolvingRecordRequestDto> solvingRecordRequestDtoList
     ) {
-        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecordList(memberId, solvingRecordListRequestDto));
+        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestDtoList));
     }
 }

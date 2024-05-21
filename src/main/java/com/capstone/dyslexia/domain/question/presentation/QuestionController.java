@@ -46,4 +46,5 @@ public class QuestionController {
     ) {
         return ApiResponseTemplate.ok(questionService.getRandomQuestionList(memberId, numOfQuestions));
     }
+
 }
