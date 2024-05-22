@@ -45,10 +45,9 @@ public class DateAchievementController {
 
     @GetMapping("/update")
     public ApiResponseTemplate<DateAchievementResponseDto> updateDateAchievement(
-            @RequestHeader Long memberId,
-            @RequestHeader Date date
+            @RequestHeader Long memberId
     ) {
-        return ApiResponseTemplate.ok(dateAchievementService.updateDateAchievement(memberId, date));
+        return ApiResponseTemplate.ok(dateAchievementService.updateDateAchievement(memberId));
     }
 
 }

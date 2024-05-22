@@ -31,7 +31,7 @@ public class SolvingRecordController {
     @PostMapping("/create/list")
     public ApiResponseTemplate<List<SolvingRecordCreateResponseDto>> createSolvingRecordList(
             @RequestHeader Long memberId,
-            @Valid @RequestBody List<SolvingRecordRequestDto> solvingRecordRequestDtoList
+            @Valid @RequestPart List<SolvingRecordRequestDto> solvingRecordRequestDtoList
     ) {
         return ApiResponseTemplate.created(solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestDtoList));
     }

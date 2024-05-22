@@ -3,11 +3,11 @@ package com.capstone.dyslexia.global.payload;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
 @ToString
-@Data
 public class ApiResponseTemplate<T> {
 
     @Schema(description = "HTTP 응답 코드")
