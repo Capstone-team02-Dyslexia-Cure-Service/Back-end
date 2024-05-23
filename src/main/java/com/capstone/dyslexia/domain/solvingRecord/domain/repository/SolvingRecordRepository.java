@@ -1,4 +1,4 @@
-package com.capstone.dyslexia.domain.solvingRecord.domain.respository;
+package com.capstone.dyslexia.domain.solvingRecord.domain.repository;
 
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;

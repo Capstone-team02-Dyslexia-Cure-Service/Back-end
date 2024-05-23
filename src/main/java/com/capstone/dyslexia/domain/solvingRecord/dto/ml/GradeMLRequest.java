@@ -1,13 +1,25 @@
 package com.capstone.dyslexia.domain.solvingRecord.dto.ml;
 
+import com.capstone.dyslexia.domain.question.domain.QuestionType;
 import lombok.Builder;
-import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 public class GradeMLRequest {
 
-    private MultipartFile answerFile;
+    @Builder
+    public static class Word {
+        private String submissionAnswerFilePath;
 
-    private String questionSavedAnswerFilePath;
+        private String questionContent;
+    }
+
+    @Builder
+    public static class Sentence {
+        private String submissionAnswerFilePath;
+
+        private String questionContent;
+
+        private String pronunciationFilePath;
+    }
 
 }

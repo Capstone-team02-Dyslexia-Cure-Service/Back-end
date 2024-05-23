@@ -1,4 +1,4 @@
-package com.capstone.dyslexia.domain.member.domain.respository;
+package com.capstone.dyslexia.domain.member.domain.repository;
 
 import com.capstone.dyslexia.domain.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

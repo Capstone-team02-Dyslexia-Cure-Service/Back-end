@@ -2,6 +2,9 @@ package com.capstone.dyslexia.domain.solvingRecord.domain;
 
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.question.domain.Question;
+import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
+import com.capstone.dyslexia.domain.question.domain.sentence.QuestionSentence;
+import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,11 +24,21 @@ public class SolvingRecord extends BaseEntity {
     @Column(name = "is_correct")
     private Boolean isCorrect;
 
+    @Column(name = "submission_answer")
+    private String submissionAnswer;
+
+    @Column(name = "question_response_type")
+    private QuestionResponseType questionResponseType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @JoinColumn(name = "question_word_id")
+    private QuestionWord questionWord;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_sentence_id")
+    private QuestionSentence questionSentence;
 }

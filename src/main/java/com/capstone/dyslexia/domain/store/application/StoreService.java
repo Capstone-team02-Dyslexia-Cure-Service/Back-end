@@ -1,10 +1,10 @@
 package com.capstone.dyslexia.domain.store.application;
 
 import com.capstone.dyslexia.domain.animal.domain.Animal;
-import com.capstone.dyslexia.domain.animal.domain.respository.AnimalRepository;
+import com.capstone.dyslexia.domain.animal.domain.repository.AnimalRepository;
 import com.capstone.dyslexia.domain.animal.dto.response.AnimalResponseDto;
 import com.capstone.dyslexia.domain.member.domain.Member;
-import com.capstone.dyslexia.domain.member.domain.respository.MemberRepository;
+import com.capstone.dyslexia.domain.member.domain.repository.MemberRepository;
 import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.domain.store.domain.repository.StoreRepository;
 import com.capstone.dyslexia.domain.store.dto.request.StoreResponseDto;

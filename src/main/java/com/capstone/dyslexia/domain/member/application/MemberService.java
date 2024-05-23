@@ -2,7 +2,7 @@ package com.capstone.dyslexia.domain.member.application;
 
 import com.capstone.dyslexia.domain.level.application.LevelRangeService;
 import com.capstone.dyslexia.domain.member.domain.Member;
-import com.capstone.dyslexia.domain.member.domain.respository.MemberRepository;
+import com.capstone.dyslexia.domain.member.domain.repository.MemberRepository;
 import com.capstone.dyslexia.domain.member.dto.request.MemberSignInRequestDto;
 import com.capstone.dyslexia.domain.member.dto.request.MemberSignUpRequestDto;
 import com.capstone.dyslexia.domain.member.dto.request.MemberUpdateRequestDto;
