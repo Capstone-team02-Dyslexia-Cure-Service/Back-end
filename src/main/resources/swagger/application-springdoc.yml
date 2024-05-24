@@ -2,13 +2,40 @@ springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
   swagger-ui:
-    path: swagger
+    path: swagger-ui.html
     disable-swagger-default-url: true
     display-request-duration: true
     operations-sorter: method
     doc-expansion: none
+    default-expanded: false
+    operationsSorter: alpha
+    tagsSorter: alpha
+  use-fqn: true
+  #api-docs:
+  #  path: v3/api-docs
 
-    #    enabled: false
-    #    query-config-enabled: false
-    #  api-docs:
-    #    enabled: false
+
+
+components:
+  schemas:
+    BasicErrorModel:
+      type: ApiResponseTemplate
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          minimum: 100
+          maximum: 600
+    ExtendedErrorModel:
+      allOf:     # Combines the BasicErrorModel and the inline model
+        - $ref: '#/components/schemas/ApiResponseTemplate'
+        - type: object
+          required:
+            - rootCause
+          properties:
+            rootCause:
+              type: string

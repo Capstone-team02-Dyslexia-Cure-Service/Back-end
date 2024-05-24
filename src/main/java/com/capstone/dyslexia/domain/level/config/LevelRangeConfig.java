@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
-@ConfigurationProperties(prefix = "level-rages")
+@ConfigurationProperties(prefix = "level-ranges")
 @Getter
 public class LevelRangeConfig {
 
@@ -19,7 +20,10 @@ public class LevelRangeConfig {
     public static class LevelRange {
         private Double min;
         private Double max;
-        private EnumMap<QuestionResponseType, Double> probabilities;
-    }
+        private Map<QuestionResponseType, Double> probabilities;
 
+        public EnumMap<QuestionResponseType, Double> getProbabilitiesAsEnumMap() {
+            return new EnumMap<>(probabilities);
+        }
+    }
 }

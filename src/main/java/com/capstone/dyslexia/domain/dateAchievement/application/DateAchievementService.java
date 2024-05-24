@@ -9,6 +9,7 @@ import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
 import com.capstone.dyslexia.domain.solvingRecord.domain.repository.SolvingRecordRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,18 @@ public class DateAchievementService {
 
     private final MemberService memberService;
 
+    @Scheduled(fixedRate = 86400000)
+    public void updateDateAchievement() {
+
+    }
+
+    public void updateUserDateAchievement(Member member) {
+        List<SolvingRecord> solvingRecordList = solvingRecordRepository.findSolvingRecordsByMember(member);
+
+    }
+
     public List<DateAchievementResponseDto> findAllByMemberId(Long memberId) {
+
         return null;
     }
 

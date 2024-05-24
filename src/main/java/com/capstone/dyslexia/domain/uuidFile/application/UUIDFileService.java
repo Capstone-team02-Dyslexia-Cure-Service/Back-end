@@ -1,9 +1,6 @@
 package com.capstone.dyslexia.domain.uuidFile.application;
 
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.capstone.dyslexia.domain.aws.s3.AmazonS3Manager;
-import com.capstone.dyslexia.domain.aws.s3.S3PhotoService;
-import com.capstone.dyslexia.domain.member.application.MemberService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.uuidFile.domain.UUIDFile;
 import com.capstone.dyslexia.domain.uuidFile.domain.repository.UUIDFileRepository;

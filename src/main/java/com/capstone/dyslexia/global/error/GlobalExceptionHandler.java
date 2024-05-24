@@ -3,11 +3,20 @@ package com.capstone.dyslexia.global.error;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.error.exceptions.ServiceUnavailableException;
 import com.capstone.dyslexia.global.error.exceptions.UnauthorizedException;
+import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import com.capstone.dyslexia.global.payload.ConstraintExceptionDto;
 import com.capstone.dyslexia.global.payload.ErrorResponseTemplate;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -16,6 +25,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
@@ -25,6 +35,7 @@ import java.util.Map;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     private final View error;
 
     public GlobalExceptionHandler(View error) {

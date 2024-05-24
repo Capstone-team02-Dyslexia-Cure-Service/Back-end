@@ -27,7 +27,7 @@ public class LevelRangeService {
     }
 
     public Optional<EnumMap<QuestionResponseType, Double>> getQuestionResponseProbability(Member member) {
-        return getLevelRange(member.getLevel()).map(LevelRangeConfig.LevelRange::getProbabilities);
+        return getLevelRange(member.getLevel()).map(LevelRangeConfig.LevelRange::getProbabilitiesAsEnumMap);
     }
 
 }
