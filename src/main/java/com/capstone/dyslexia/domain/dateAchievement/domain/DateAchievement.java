@@ -6,7 +6,7 @@ import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,7 +29,7 @@ public class DateAchievement extends BaseEntity {
     private List<SolvingRecord> solvingRecordList;
 
     @Column(name = "achievement_date")
-    private LocalDate achievementDate;
+    private Date achievementDate;
 
     @Column(name = "correct_rate")
     private Double correctRate;

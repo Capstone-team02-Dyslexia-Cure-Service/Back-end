@@ -1,11 +1,10 @@
 package com.capstone.dyslexia.domain.question.dto.response;
 
 import com.capstone.dyslexia.domain.question.domain.QuestionType;
-import com.capstone.dyslexia.domain.question.dto.QuestionResponseType;
 import lombok.Builder;
 
 @Builder
-public class QuestionResponseDto {
+public class CreateQuestionResponseDto {
 
     private Long id;
 
@@ -16,7 +15,5 @@ public class QuestionResponseDto {
     private String pronunciationFilePath;
 
     private String videoPath;
-
-    private QuestionResponseType questionResponseType;
 
 }

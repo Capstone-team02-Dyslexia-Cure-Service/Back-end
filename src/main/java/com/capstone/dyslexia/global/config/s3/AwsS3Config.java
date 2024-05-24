@@ -34,9 +34,6 @@ public class AwsS3Config {
     @Value("${cloud.aws.s3.path.video}")
     private String videoPath;
 
-    @Value("cloud.aws.s3.path.submission")
-    private String submissionAnswerFilePath;
-
     private AWSCredentials awsCredentials;
 
     @PostConstruct

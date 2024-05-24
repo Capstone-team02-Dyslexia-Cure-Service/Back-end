@@ -1,4 +1,4 @@
-package com.capstone.dyslexia.domain.animal.domain.repository;
+package com.capstone.dyslexia.domain.animal.domain.respository;
 
 import com.capstone.dyslexia.domain.animal.domain.Animal;
 import com.capstone.dyslexia.domain.store.domain.Store;

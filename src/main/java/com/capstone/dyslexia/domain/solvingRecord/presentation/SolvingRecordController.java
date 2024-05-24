@@ -1,23 +1,17 @@
 package com.capstone.dyslexia.domain.solvingRecord.presentation;
 
-import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
+import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordCreateResponseDto;
+import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordListRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
-import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.capstone.dyslexia.domain.question.domain.QuestionResponseType.*;
-import static com.capstone.dyslexia.domain.question.domain.QuestionResponseType.READ_SENTENCE;
-import static com.capstone.dyslexia.global.error.ErrorCode.INVALID_PARAMETER;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,43 +22,26 @@ public class SolvingRecordController {
     private final SolvingRecordService solvingRecordService;
 
     @GetMapping
-    public ApiResponseTemplate<SolvingRecordResponseDto.Find> findSolvingRecordById(
+    public ApiResponseTemplate<SolvingRecordResponseDto> findSolvingRecordById(
             @RequestHeader Long memberId,
             @RequestHeader Long solvingRecordId
     ) {
         return ApiResponseTemplate.ok(solvingRecordService.findSolvingRecordById(memberId, solvingRecordId));
     }
 
-
-    @PostMapping("/create/list")
-    public ApiResponseTemplate<List<SolvingRecordResponseDto.Create>> createSolvingRecordList(
+    @PostMapping("/create")
+    public ApiResponseTemplate<SolvingRecordCreateResponseDto> createSolvingRecord(
             @RequestHeader Long memberId,
-            @Valid @RequestPart("solvingRecordRequestDtoList") List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList,
-            @RequestPart("answerFileList") List<MultipartFile> answerFileList
+            @Valid @RequestBody SolvingRecordRequestDto solvingRecordRequestDto
     ) {
-        if (solvingRecordRequestDtoList.size() != answerFileList.size()) {
-            throw new BadRequestException(INVALID_PARAMETER, "문제 풀이 기록과 파일 개수가 일치하지 않습니다.");
-        }
-
-        List<SolvingRecordRequestDto.Convert> solvingRecordRequestConvertDtoList = new ArrayList<>();
-        for (int i = 0; i < solvingRecordRequestDtoList.size(); i++) {
-            SolvingRecordRequestDto.Create requestDto = solvingRecordRequestDtoList.get(i);
-            MultipartFile answerFile = answerFileList.get(i);
-
-            QuestionResponseType questionResponseType = requestDto.getQuestionResponseType();
-
-            if (questionResponseType.equals(SELECT_WORD) || questionResponseType.equals(WRITE_WORD)) {
-                if (answerFile.isEmpty()) throw new BadRequestException(INVALID_PARAMETER, "SELECT WORD와 WRITE WORD는 file을 포함하면 안 됩니다.");
-            } else if (questionResponseType.equals(READ_WORD) || questionResponseType.equals(READ_SENTENCE)) {
-                if (requestDto.getAnswer().isEmpty()) throw new BadRequestException(INVALID_PARAMETER, "READ WORD와 READ SENTENCE는 answer(String)를 포함하면 안 됩니다.");
-            } else throw new BadRequestException(INVALID_PARAMETER, "잘못된 문제 타입입니다");
-
-            solvingRecordRequestConvertDtoList.add(new SolvingRecordRequestDto.Convert(requestDto, answerFile));
-        }
-        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestConvertDtoList));
+        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecord(memberId, solvingRecordRequestDto));
     }
 
-
-
-
+    @PostMapping("/create/list")
+    public ApiResponseTemplate<List<SolvingRecordCreateResponseDto>> createSolvingRecordList(
+            @RequestHeader Long memberId,
+            @Valid @RequestBody SolvingRecordListRequestDto solvingRecordListRequestDto
+    ) {
+        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecordList(memberId, solvingRecordListRequestDto));
+    }
 }

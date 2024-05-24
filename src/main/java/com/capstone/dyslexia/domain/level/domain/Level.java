@@ -1,4 +1,4 @@
-package com.capstone.dyslexia.domain.uuidFile.domain;
+package com.capstone.dyslexia.domain.level.domain;
 
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -9,15 +9,15 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "uuid_image")
-public class UUIDFile extends BaseEntity {
+@Table(name = "level")
+public class Level extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "uuid", unique = true)
-    private String uuid;
+    private Double levelFigure;
 
-    @Column(name = "file_url")
-    private String fileUrl;
+    private LevelRange levelRange;
+
 }
