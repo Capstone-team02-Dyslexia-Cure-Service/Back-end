@@ -33,10 +33,8 @@ public class Member extends BaseEntity {
     private Double level;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @JoinColumn(name = "animal_list")
     private List<Animal> animalList;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @JoinColumn(name = "solving_record_list")
     private List<SolvingRecord> solvingRecordList;
 }
