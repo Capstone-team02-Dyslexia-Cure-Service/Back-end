@@ -28,4 +28,9 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Animal> havingAnimalList;
 
+    public Store setMember(Member member) {
+        this.member = member;
+        return this;
+    }
+
 }

@@ -33,7 +33,7 @@ public class StoreService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "잘못된 Member ID 입니다."));
 
-        Store store =  storeRepository.findByMember(member)
+        Store store =  storeRepository.findById(member.getStore().getId())
                 .orElseThrow(() -> new InternalServerException(INTERNAL_SERVER, "사용자에 할당된 상점이 없습니다. 서버 관리자에게 문의 주세요."));
 
         List<Animal> animalList = animalRepository.findAllByStore(store);

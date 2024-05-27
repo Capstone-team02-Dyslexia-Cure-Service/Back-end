@@ -8,6 +8,7 @@ import com.capstone.dyslexia.domain.member.dto.request.MemberSignUpRequestDto;
 import com.capstone.dyslexia.domain.member.dto.request.MemberUpdateRequestDto;
 import com.capstone.dyslexia.domain.member.dto.response.MemberResponseDto;
 import com.capstone.dyslexia.domain.store.domain.Store;
+import com.capstone.dyslexia.domain.store.domain.repository.StoreRepository;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.error.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,7 @@ import static com.capstone.dyslexia.global.error.ErrorCode.ROW_DOES_NOT_EXIST;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    private final LevelRangeService levelRangeService;
+    private final StoreRepository storeRepository;
 
     @Transactional
     public MemberResponseDto signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
@@ -39,6 +39,7 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
+        storeRepository.save(store.setMember(member));
 
         return MemberResponseDto.builder()
                 .id(member.getId())

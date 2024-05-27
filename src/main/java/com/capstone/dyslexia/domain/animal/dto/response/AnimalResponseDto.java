@@ -2,9 +2,11 @@ package com.capstone.dyslexia.domain.animal.dto.response;
 
 import com.capstone.dyslexia.domain.animal.domain.AnimalType;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Builder
 public class AnimalResponseDto {
 
