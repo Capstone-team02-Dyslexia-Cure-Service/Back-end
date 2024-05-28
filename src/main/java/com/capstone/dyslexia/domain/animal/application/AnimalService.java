@@ -27,6 +27,7 @@ public class AnimalService {
 
     private final AnimalRepository animalRepository;
 
+    @Transactional
     public AnimalResponseDto createAnimal(Long memberId, AnimalType animalType) {
         Member member = memberService.memberValidation(memberId);
 
@@ -42,6 +43,7 @@ public class AnimalService {
         return AnimalResponseDto.from(animal);
     }
 
+    @Transactional
     public AnimalResponseDto updateAnimal(Long memberId, Long animalId, String nickname) {
         Member member = memberService.memberValidation(memberId);
 
@@ -83,6 +85,7 @@ public class AnimalService {
         return AnimalResponseDto.from(animal);
     }
 
+    @Transactional
     public AnimalResponseDto feedAnimal(Long memberId, Long animalId) {
         Member member = memberService.memberValidation(memberId);
 

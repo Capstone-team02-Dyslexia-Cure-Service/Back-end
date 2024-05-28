@@ -17,11 +17,12 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API Documentation")
+                        .title("Dyslexia Zoo API Documentation")
                         .version("1.0")
                         .description("API documentation for the application"));
     }
 
+    /*
     @Bean
     public OperationCustomizer customOperationCustomizer() {
         return (operation, handlerMethod) -> {
@@ -34,4 +35,6 @@ public class OpenApiConfig {
             return operation;
         };
     }
+
+     */
 }
