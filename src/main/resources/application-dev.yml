@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: dyslexia
+  output:
+    ansi:
+      enabled: always
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  sql:
+    init:
+      mode: never
+  jpa:
+    # database-platform: org.hibernate.dialect.MYSQLDialect
+    hibernate:
+      ddl-auto: update
+    # 배포 시엔 open-in-view false 설정
+    open-in-view: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        # dialect: org.hibernate.dialect.MYSQLDialect
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+server:
+  error:
+    include-exception: true
+    include-stacktrace: always
+  port: 8080
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: debug

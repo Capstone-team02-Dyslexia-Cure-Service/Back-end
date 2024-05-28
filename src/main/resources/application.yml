@@ -1,0 +1,3 @@
+spring:
+  config:
+    import: "classpath:application-dev.yml,classpaht:application-aws.yml,classpath:swagger/application-springdoc.yml,classpath:level.yml"
