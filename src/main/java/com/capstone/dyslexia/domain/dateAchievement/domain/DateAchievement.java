@@ -31,7 +31,14 @@ public class DateAchievement extends BaseEntity {
     @Column(name = "achievement_date")
     private LocalDate achievementDate;
 
-    @Column(name = "correct_rate")
-    private Double correctRate;
+    @Column(name = "score")
+    private Double score;
 
+    public void setSolvingRecordList(List<SolvingRecord> solvingRecordList) {
+        this.solvingRecordList = solvingRecordList;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
 }

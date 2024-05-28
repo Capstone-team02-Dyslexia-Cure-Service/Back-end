@@ -1,5 +1,6 @@
 package com.capstone.dyslexia.domain.solvingRecord.application;
 
+import com.capstone.dyslexia.domain.dateAchievement.application.DateAchievementService;
 import com.capstone.dyslexia.domain.member.application.MemberService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.question.domain.sentence.QuestionSentence;
@@ -41,6 +42,7 @@ public class SolvingRecordService {
 
     private final UUIDFileService uuidFileService;
     private final QuestionSentenceRepository questionSentenceRepository;
+    private final DateAchievementService dateAchievementService;
 
 
     public SolvingRecordResponseDto.Find findSolvingRecordById(Long memberId, Long solvingRecordId) {
@@ -67,9 +69,9 @@ public class SolvingRecordService {
 
         for (SolvingRecordRequestDto.Convert requestDto : solvingRecordRequestConvertDtoList) {
             if (requestDto.getQuestionResponseType().equals(SELECT_WORD) || requestDto.getQuestionResponseType().equals(WRITE_WORD)) {
-                solvingRecordCreateResponseDtoList.add(gradeQuestionQuestion(member, new SolvingRecordRequestDto.CreateString(requestDto)));
+                solvingRecordCreateResponseDtoList.add(gradeQuestionWord(member, new SolvingRecordRequestDto.CreateString(requestDto)));
             } else if (requestDto.getQuestionResponseType().equals(READ_WORD)) {
-                solvingRecordCreateResponseDtoList.add(gradeQuestionQuestion(member, new SolvingRecordRequestDto.CreateFile(requestDto)));
+                solvingRecordCreateResponseDtoList.add(gradeQuestionWord(member, new SolvingRecordRequestDto.CreateFile(requestDto)));
             } else if (requestDto.getQuestionResponseType().equals(READ_SENTENCE)) {
                 solvingRecordCreateResponseDtoList.add(gradeQuestionSentence(member, new SolvingRecordRequestDto.CreateFile(requestDto)));
             }
@@ -85,7 +87,7 @@ public class SolvingRecordService {
 
     // SELECT_WORD, WRITE WORD
     @Transactional
-    protected SolvingRecordResponseDto.Create gradeQuestionQuestion(Member member, SolvingRecordRequestDto.CreateString requestDto) {
+    protected SolvingRecordResponseDto.Create gradeQuestionWord(Member member, SolvingRecordRequestDto.CreateString requestDto) {
         QuestionWord questionWord = questionWordRepository.findById(requestDto.getQuestionId())
                 .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "존재하지 않는 Word 문제 ID(PK) 입니다."));
 
@@ -101,6 +103,8 @@ public class SolvingRecordService {
 
         solvingRecordRepository.save(solvingRecord);
 
+        dateAchievementService.addSolvingRecord(solvingRecord);
+
         return SolvingRecordResponseDto.Create.builder()
                 .questionWordId(questionWord.getId())
                 .isCorrect(isCorrect)
@@ -112,7 +116,7 @@ public class SolvingRecordService {
 
     // READ_WORD
     @Transactional
-    protected SolvingRecordResponseDto.Create gradeQuestionQuestion(Member member, SolvingRecordRequestDto.CreateFile requestDto) {
+    protected SolvingRecordResponseDto.Create gradeQuestionWord(Member member, SolvingRecordRequestDto.CreateFile requestDto) {
         QuestionWord questionWord = questionWordRepository.findById(requestDto.getQuestionId())
                 .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "존재하지 않는 Word 문제 ID(PK) 입니다."));
 
@@ -133,6 +137,8 @@ public class SolvingRecordService {
                 .build();
 
         solvingRecordRepository.save(solvingRecord);
+
+        dateAchievementService.addSolvingRecord(solvingRecord);
 
         return SolvingRecordResponseDto.Create.builder()
                 .questionWordId(questionWord.getId())
@@ -166,6 +172,8 @@ public class SolvingRecordService {
                 .build();
 
         solvingRecordRepository.save(solvingRecord);
+
+        dateAchievementService.addSolvingRecord(solvingRecord);
 
         return SolvingRecordResponseDto.Create.builder()
                 .questionSentenceId(questionSentence.getId())

@@ -39,15 +39,7 @@ public class StoreService {
         List<Animal> animalList = animalRepository.findAllByStore(store);
         List<AnimalResponseDto> animalResponseDtoList= new ArrayList<>();
         for (Animal animal : animalList) {
-            AnimalResponseDto animalResponseDto = AnimalResponseDto.buildAnimal(
-                    animal.getId(),
-                    animal.getAnimalType(),
-                    animal.getNickname(),
-                    animal.getHungerTimer(),
-                    animal.getCreatedAt(),
-                    animal.getUpdatedAt()
-                    );
-            animalResponseDtoList.add(animalResponseDto);
+            animalResponseDtoList.add(AnimalResponseDto.from(animal));
         }
 
         return StoreResponseDto.builder()

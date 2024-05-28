@@ -7,8 +7,10 @@ import com.capstone.dyslexia.domain.dateAchievement.dto.response.DateAchievement
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,26 +23,28 @@ public class DateAchievementController {
     private final DateAchievementService dateAchievementService;
 
     @GetMapping("/all")
-    public ApiResponseTemplate<List<DateAchievementResponseDto>> findAllByMemberId(
-            @RequestHeader Long memberId
+    public ApiResponseTemplate<List<DateAchievementResponseDto.Find>> findAllByMemberId(
+            @RequestHeader Long memberId,
+            @RequestHeader Pageable pageable
     ) {
-        return ApiResponseTemplate.ok(dateAchievementService.findAllByMemberId(memberId));
+        return ApiResponseTemplate.ok(dateAchievementService.findAllByMemberId(memberId, pageable));
     }
 
     @GetMapping
-    public ApiResponseTemplate<DateAchievementResponseDto> findByDate(
+    public ApiResponseTemplate<DateAchievementResponseDto.Find> findByDate(
             @RequestHeader Long memberId,
-            @RequestHeader Date date
+            @RequestHeader LocalDate date
     ) {
         return ApiResponseTemplate.ok(dateAchievementService.findByDate(memberId, date));
     }
 
     @PostMapping("/period")
-    public ApiResponseTemplate<List<DateAchievementResponseDto>> findByPeriod(
+    public ApiResponseTemplate<List<DateAchievementResponseDto.Find>> findByPeriod(
             @RequestHeader Long memberId,
-            @RequestBody DateAchievementPeriodRequestDto dateAchievementPeriodRequestDto
+            @RequestHeader Pageable pageable,
+            @RequestBody DateAchievementPeriodRequestDto.FindByPeriod dateAchievementPeriodRequestDto
     ) {
-        return ApiResponseTemplate.ok(dateAchievementService.findByPeriod(memberId, dateAchievementPeriodRequestDto));
+        return ApiResponseTemplate.ok(dateAchievementService.findByPeriod(memberId, pageable, dateAchievementPeriodRequestDto));
     }
 
 }

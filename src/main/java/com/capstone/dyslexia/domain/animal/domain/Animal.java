@@ -33,4 +33,12 @@ public class Animal extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setHungerTimer(LocalDateTime hungerTimer) {
+        this.hungerTimer = hungerTimer;
+    }
+
 }

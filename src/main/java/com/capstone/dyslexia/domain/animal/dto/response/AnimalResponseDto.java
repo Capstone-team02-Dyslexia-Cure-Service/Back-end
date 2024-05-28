@@ -1,5 +1,6 @@
 package com.capstone.dyslexia.domain.animal.dto.response;
 
+import com.capstone.dyslexia.domain.animal.domain.Animal;
 import com.capstone.dyslexia.domain.animal.domain.AnimalType;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,16 +27,16 @@ public class AnimalResponseDto {
 
     private LocalDateTime updatedAt;
 
-    public static AnimalResponseDto buildAnimal(Long id, AnimalType animalTypeEnum, String nickname, LocalDateTime hungerTimer, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public static AnimalResponseDto from(Animal animal) {
         return AnimalResponseDto.builder()
-                .id(id)
-                .animalType(animalTypeEnum.toString())
-                .habitatType(animalTypeEnum.getAnimalHabitatType().toString())
-                .description(animalTypeEnum.getAnimalDescription().getDescription())
-                .nickname(nickname)
-                .hungerTimer(hungerTimer)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
+                .id(animal.getId())
+                .animalType(animal.getAnimalType().toString())
+                .habitatType(animal.getAnimalType().getAnimalHabitatType().toString())
+                .description(animal.getAnimalType().getAnimalDescription().getDescription())
+                .nickname(animal.getNickname())
+                .hungerTimer(animal.getHungerTimer())
+                .createdAt(animal.getCreatedAt())
+                .updatedAt(animal.getUpdatedAt())
                 .build();
     }
 }

@@ -1,14 +1,14 @@
 package com.capstone.dyslexia.domain.animal.presentation;
 
 import com.capstone.dyslexia.domain.animal.application.AnimalService;
-import com.capstone.dyslexia.domain.animal.dto.request.AnimalBuyRequestDto;
-import com.capstone.dyslexia.domain.animal.dto.request.AnimalUpdateRequestDto;
+import com.capstone.dyslexia.domain.animal.domain.AnimalType;
 import com.capstone.dyslexia.domain.animal.dto.response.AnimalResponseDto;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,24 +19,24 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @PostMapping("/buy")
-    public ApiResponseTemplate<AnimalResponseDto> buyAnimal(
+    public ApiResponseTemplate<AnimalResponseDto> createAnimal(
             @RequestHeader Long memberId,
-            @Valid @RequestBody AnimalBuyRequestDto animalBuyRequestDto
+            @RequestBody AnimalType animalType
             ) {
-        return ApiResponseTemplate.created(animalService.buyAnimal(memberId, animalBuyRequestDto));
+        return ApiResponseTemplate.created(animalService.createAnimal(memberId, animalType));
     }
 
     @PostMapping("/update")
     public ApiResponseTemplate<AnimalResponseDto> updateAnimal(
             @RequestHeader Long memberId,
             @RequestHeader Long animalId,
-            @Valid @RequestBody AnimalUpdateRequestDto animalUpdateRequestDto
+            @RequestBody String nickname
     ) {
-        return ApiResponseTemplate.ok(animalService.updateAnimal(memberId, animalId, animalUpdateRequestDto));
+        return ApiResponseTemplate.ok(animalService.updateAnimal(memberId, animalId, nickname));
     }
 
     @GetMapping("/all")
-    public ApiResponseTemplate<AnimalResponseDto> findAllAnimal(
+    public ApiResponseTemplate<List<AnimalResponseDto>> findAllAnimal(
             @RequestHeader Long memberId
     ) {
         return ApiResponseTemplate.ok(animalService.findAllAnimal(memberId));
