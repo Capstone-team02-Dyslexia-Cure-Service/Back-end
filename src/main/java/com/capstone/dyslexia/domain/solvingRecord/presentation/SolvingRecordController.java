@@ -4,11 +4,13 @@ import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
+import com.capstone.dyslexia.global.HttpMessageConverter.MultipartJackson2HttpMessageConverter;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,17 +32,18 @@ public class SolvingRecordController {
     @GetMapping
     public ApiResponseTemplate<SolvingRecordResponseDto.Find> findSolvingRecordById(
             @RequestHeader Long memberId,
-            @RequestHeader Long solvingRecordId
+            @RequestHeader Long solvingRecordId,
+            @Valid @RequestPart List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList
     ) {
         return ApiResponseTemplate.ok(solvingRecordService.findSolvingRecordById(memberId, solvingRecordId));
     }
 
 
-    @PostMapping("/create/list")
+    @PostMapping(value = "/create/list", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponseTemplate<List<SolvingRecordResponseDto.Create>> createSolvingRecordList(
             @RequestHeader Long memberId,
-            @Valid @RequestPart("solvingRecordRequestDtoList") List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList,
-            @RequestPart("answerFileList") List<MultipartFile> answerFileList
+            @Valid @RequestPart List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList,
+            @RequestPart(required = false) List<MultipartFile> answerFileList
     ) {
         if (solvingRecordRequestDtoList.size() != answerFileList.size()) {
             throw new BadRequestException(INVALID_PARAMETER, "문제 풀이 기록과 파일 개수가 일치하지 않습니다.");
@@ -51,7 +54,7 @@ public class SolvingRecordController {
             SolvingRecordRequestDto.Create requestDto = solvingRecordRequestDtoList.get(i);
             MultipartFile answerFile = answerFileList.get(i);
 
-            QuestionResponseType questionResponseType = requestDto.getQuestionResponseType();
+            QuestionResponseType questionResponseType = QuestionResponseType.valueOf(requestDto.getQuestionResponseType());
 
             if (questionResponseType.equals(SELECT_WORD) || questionResponseType.equals(WRITE_WORD)) {
                 if (answerFile.isEmpty()) throw new BadRequestException(INVALID_PARAMETER, "SELECT WORD와 WRITE WORD는 file을 포함하면 안 됩니다.");

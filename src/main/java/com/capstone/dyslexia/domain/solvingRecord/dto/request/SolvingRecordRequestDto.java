@@ -2,18 +2,21 @@ package com.capstone.dyslexia.domain.solvingRecord.dto.request;
 
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 public class SolvingRecordRequestDto {
 
     @Getter
+    @Data
     public static class Create {
-        @NotBlank(message = "questionId는 공백이면 안 됩니다.")
+        @Positive(message = "question id는 0보다 커야 합니다.")
         private Long questionId;
 
         @NotBlank(message = "question response type은 공백이면 안 됩니다.")
-        private QuestionResponseType questionResponseType;
+        private String questionResponseType;
 
         private String answer;
     }
@@ -30,7 +33,7 @@ public class SolvingRecordRequestDto {
 
         public Convert(Create create, MultipartFile answerFile) {
             this.questionId = create.getQuestionId();
-            this.questionResponseType = create.getQuestionResponseType();
+            this.questionResponseType = QuestionResponseType.valueOf(create.getQuestionResponseType());
             this.answer = create.getAnswer();
             this.answerFile = answerFile;
         }

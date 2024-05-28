@@ -37,9 +37,7 @@ public class QuestionService {
     private final UUIDFileService uuidFileService;
 
     @Transactional
-    public QuestionResponseDto.CreateWord createWord(Long memberId, String questionRequestDto) {
-        Member member = memberService.memberValidation(memberId);
-
+    public QuestionResponseDto.CreateWord createWord(String questionRequestDto) {
         QuestionWord questionWord = QuestionWord.builder()
                 .content(questionRequestDto)
                 .build();
@@ -50,9 +48,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public QuestionResponseDto.CreateSentence createSentence(Long memberId, String content, MultipartFile pronunciationFile, MultipartFile videoFile) {
-        Member member = memberService.memberValidation(memberId);
-
+    public QuestionResponseDto.CreateSentence createSentence(String content, MultipartFile pronunciationFile, MultipartFile videoFile) {
         UUIDFile pronunciationUUIDFile = uuidFileService.savePronunciation(pronunciationFile);
         UUIDFile videoUUIDFile = uuidFileService.saveVideo(videoFile);
 

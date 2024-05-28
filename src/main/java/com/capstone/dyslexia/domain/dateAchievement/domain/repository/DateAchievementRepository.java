@@ -21,5 +21,5 @@ public interface DateAchievementRepository extends JpaRepository<DateAchievement
     
     Page<DateAchievement> findByMemberAndAchievementDateBetween(Member member, LocalDate startDate, LocalDate endDate, Pageable pageable);
 
-    Optional<DateAchievement> findByAchievementDate(LocalDateTime createdAt);
+    Optional<DateAchievement> findByAchievementDate(LocalDate createdAtDate);
 }

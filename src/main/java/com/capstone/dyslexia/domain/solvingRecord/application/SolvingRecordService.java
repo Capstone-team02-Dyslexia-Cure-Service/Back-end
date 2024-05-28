@@ -62,6 +62,7 @@ public class SolvingRecordService {
     }
 
 
+    @Transactional
     public List<SolvingRecordResponseDto.Create> createSolvingRecordList(Long memberId, List<SolvingRecordRequestDto.Convert> solvingRecordRequestConvertDtoList) {
         Member member = memberService.memberValidation(memberId);
 

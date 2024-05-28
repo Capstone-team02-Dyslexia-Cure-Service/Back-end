@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@Schema(description = "API 응답 템플릿")
+@Schema(name = "ApiResponseTemplate", description = "API 응답 템플릿")
 @ToString
 @Getter
 public class ApiResponseTemplate<T> {

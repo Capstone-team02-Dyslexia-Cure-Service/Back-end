@@ -39,6 +39,8 @@ server:
 
 logging:
   level:
+    #root: DEBUG
+    #org.springframework.boot.context.properties: DEBUG
     org:
       hibernate:
         type:

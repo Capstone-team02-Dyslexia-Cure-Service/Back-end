@@ -7,6 +7,7 @@ import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,24 +24,22 @@ public class QuestionController {
 
     @PostMapping("/create_word")
     public ApiResponseTemplate<QuestionResponseDto.CreateWord> createWord(
-            @RequestHeader Long memberId,
             @RequestBody String content
     ) {
-        return ApiResponseTemplate.created(questionService.createWord(memberId, content));
+        return ApiResponseTemplate.created(questionService.createWord(content));
     }
 
-    @PostMapping("/create_sentence")
+    @PostMapping(value = "/create_sentence", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponseTemplate<QuestionResponseDto.CreateSentence> createSentence(
-            @RequestHeader Long memberId,
-            @RequestBody String content,
-            @RequestPart MultipartFile pronunciationFile,
-            @RequestPart MultipartFile videoFile
+            @RequestPart String content,
+            @RequestPart(required = false) MultipartFile pronunciationFile,
+            @RequestPart(required = false) MultipartFile videoFile
     ) {
-        return ApiResponseTemplate.created(questionService.createSentence(memberId, content, pronunciationFile, videoFile));
+        return ApiResponseTemplate.created(questionService.createSentence(content, pronunciationFile, videoFile));
     }
 
 
-    @GetMapping("/id_list")
+    @GetMapping("/id")
     public ApiResponseTemplate<QuestionResponseDto.Find> getQuestionById(
             @RequestHeader Long memberId,
             @RequestHeader Long questionId

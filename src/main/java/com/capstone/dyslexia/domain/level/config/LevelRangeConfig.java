@@ -2,6 +2,7 @@ package com.capstone.dyslexia.domain.level.config;
 
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,11 +13,13 @@ import java.util.Map;
 @Configuration
 @ConfigurationProperties(prefix = "level-ranges")
 @Getter
+@Setter
 public class LevelRangeConfig {
 
     private List<LevelRange> levelRangeList;
 
     @Getter
+    @Setter
     public static class LevelRange {
         private Double min;
         private Double max;

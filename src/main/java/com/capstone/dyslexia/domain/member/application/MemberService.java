@@ -36,6 +36,7 @@ public class MemberService {
                 .password(memberSignUpRequestDto.getPassword())
                 .age(memberSignUpRequestDto.getAge())
                 .store(store)
+                .level(1.0)
                 .build();
 
         memberRepository.save(member);

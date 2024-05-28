@@ -30,7 +30,7 @@ public class MemberController {
     @PostMapping("/signup")
     @Operation(summary = "회원 가입", description = "회원 가입을 처리합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "회원 가입 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = {MemberResponseDto.class}))),
+            @ApiResponse(responseCode = "201", description = "회원 가입 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = MemberResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청")
     })
     public ApiResponseTemplate<MemberResponseDto> signUp(
@@ -42,7 +42,7 @@ public class MemberController {
     @PostMapping("/signin")
     @Operation(summary = "회원 로그인", description = "회원 로그인을 처리합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원 로그인 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = {MemberResponseDto.class}))),
+            @ApiResponse(responseCode = "200", description = "회원 로그인 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = MemberResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청")
     })
     public ApiResponseTemplate<MemberResponseDto> signIn(

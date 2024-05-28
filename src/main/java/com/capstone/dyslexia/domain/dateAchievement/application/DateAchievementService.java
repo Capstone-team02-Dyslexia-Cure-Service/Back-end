@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,12 +74,21 @@ public class DateAchievementService {
 
     @Transactional
     public DateAchievement addSolvingRecord(SolvingRecord solvingRecord) {
-        DateAchievement dateAchievement = dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt())
-                .orElseGet(() -> DateAchievement.builder()
-                        .member(solvingRecord.getMember())
-                        .achievementDate(solvingRecord.getCreatedAt().toLocalDate())
-                        .score(0.0D)
-                        .build());
+
+        DateAchievement dateAchievement = null;
+        if (dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt().toLocalDate()).isPresent()) {
+            dateAchievement = dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt().toLocalDate()).get();
+            dateAchievement.getSolvingRecordList().add(solvingRecord);
+        } else {
+            dateAchievement = DateAchievement.builder()
+                    .member(solvingRecord.getMember())
+                    .achievementDate(solvingRecord.getCreatedAt().toLocalDate())
+                    .score(0.0D)
+                    .build();
+            List<SolvingRecord> solvingRecordList = new ArrayList<>();
+            solvingRecordList.add(solvingRecord);
+            dateAchievement.setSolvingRecordList(solvingRecordList);
+        }
 
         if (!dateAchievement.getAchievementDate().equals(solvingRecord.getCreatedAt().toLocalDate())
                 || !dateAchievement.getMember().getId().equals(solvingRecord.getMember().getId())) {
@@ -87,17 +97,17 @@ public class DateAchievementService {
                             solvingRecord.getCreatedAt().toLocalDate(), solvingRecord.getMember().getId()));
         }
 
-        dateAchievement.getSolvingRecordList().add(solvingRecord);
+
 
         long numSelectWord = countByType(dateAchievement, QuestionResponseType.SELECT_WORD);
         long numWriteWord = countByType(dateAchievement, QuestionResponseType.WRITE_WORD);
         long numReadWord = countByType(dateAchievement, QuestionResponseType.READ_WORD);
         long numReadSentence = countByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
 
-        long numCorrectSelectWord = countCorrectByType(dateAchievement, QuestionResponseType.SELECT_WORD);
-        long numCorrectWriteWord = countCorrectByType(dateAchievement, QuestionResponseType.WRITE_WORD);
-        long numCorrectReadWord = countCorrectByType(dateAchievement, QuestionResponseType.READ_WORD);
-        long numCorrectReadSentence = countCorrectByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
+        long numCorrectSelectWord = numSelectWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.SELECT_WORD);
+        long numCorrectWriteWord = numWriteWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.WRITE_WORD);
+        long numCorrectReadWord = numReadWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.READ_WORD);
+        long numCorrectReadSentence = numReadSentence == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
 
         double score = calculateScore(numSelectWord, numWriteWord, numReadWord, numReadSentence,
                 numCorrectSelectWord, numCorrectWriteWord, numCorrectReadWord, numCorrectReadSentence);
@@ -117,7 +127,7 @@ public class DateAchievementService {
 
     private long countCorrectByType(DateAchievement dateAchievement, QuestionResponseType type) {
         return dateAchievement.getSolvingRecordList().stream()
-                .filter(record -> record.getQuestionResponseType().equals(type) && record.getIsCorrect())
+                .filter(record -> record.getQuestionResponseType().equals(type) && Boolean.TRUE.equals(record.getIsCorrect()))
                 .count();
     }
 
