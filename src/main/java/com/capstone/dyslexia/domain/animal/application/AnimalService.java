@@ -31,6 +31,11 @@ public class AnimalService {
     public AnimalResponseDto createAnimal(Long memberId, AnimalType animalType) {
         Member member = memberService.memberValidation(memberId);
 
+        findAllAnimal(member.getId()).forEach(animal -> {
+            if (animal.getAnimalType().equals(animalType.toString()))
+                throw new BadRequestException(INTERNAL_SERVER, "이미 보유하고 있는 동물입니다.");
+        });
+
         Animal animal = Animal.builder()
                 .animalType(animalType)
                 .nickname(animalType.toString())

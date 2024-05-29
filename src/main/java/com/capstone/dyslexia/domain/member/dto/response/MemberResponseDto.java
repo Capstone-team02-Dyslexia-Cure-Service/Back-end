@@ -20,6 +20,9 @@ public class MemberResponseDto {
     private String password;
 
     @Schema
+    private String name;
+
+    @Schema
     private Integer age;
 
     @Schema

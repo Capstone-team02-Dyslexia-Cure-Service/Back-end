@@ -5,6 +5,7 @@ import com.capstone.dyslexia.domain.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -22,4 +23,8 @@ public interface DateAchievementRepository extends JpaRepository<DateAchievement
     Page<DateAchievement> findByMemberAndAchievementDateBetween(Member member, LocalDate startDate, LocalDate endDate, Pageable pageable);
 
     Optional<DateAchievement> findByAchievementDate(LocalDate createdAtDate);
+
+    @Query("SELECT da FROM DateAchievement da WHERE da.member = :member ORDER BY da.achievementDate DESC")
+    Page<DateAchievement> findTopByMemberOrderByAchievementDateDesc(Member member, Pageable pageable);
+
 }

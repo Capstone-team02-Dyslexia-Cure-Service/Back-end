@@ -21,20 +21,4 @@ public class OpenApiConfig {
                         .version("1.0")
                         .description("API documentation for the application"));
     }
-
-    /*
-    @Bean
-    public OperationCustomizer customOperationCustomizer() {
-        return (operation, handlerMethod) -> {
-            ApiResponse response = new ApiResponse()
-                    .description("OK")
-                    .content(new Content().addMediaType("application/json",
-                            new MediaType().schema(new Schema<>()
-                                    .$ref("#/components/schemas/ApiResponseTemplate"))));
-            operation.getResponses().addApiResponse("200", response);
-            return operation;
-        };
-    }
-
-     */
 }

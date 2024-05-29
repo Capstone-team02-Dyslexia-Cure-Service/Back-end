@@ -5,20 +5,12 @@ import com.capstone.dyslexia.domain.member.dto.request.MemberSignInRequestDto;
 import com.capstone.dyslexia.domain.member.dto.request.MemberSignUpRequestDto;
 import com.capstone.dyslexia.domain.member.dto.request.MemberUpdateRequestDto;
 import com.capstone.dyslexia.domain.member.dto.response.MemberResponseDto;
-import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor

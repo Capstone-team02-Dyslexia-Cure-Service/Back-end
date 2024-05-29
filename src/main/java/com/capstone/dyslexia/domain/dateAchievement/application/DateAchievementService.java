@@ -97,8 +97,6 @@ public class DateAchievementService {
                             solvingRecord.getCreatedAt().toLocalDate(), solvingRecord.getMember().getId()));
         }
 
-
-
         long numSelectWord = countByType(dateAchievement, QuestionResponseType.SELECT_WORD);
         long numWriteWord = countByType(dateAchievement, QuestionResponseType.WRITE_WORD);
         long numReadWord = countByType(dateAchievement, QuestionResponseType.READ_WORD);

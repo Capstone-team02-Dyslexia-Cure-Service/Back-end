@@ -1,11 +1,13 @@
 package com.capstone.dyslexia.domain.solvingRecord.dto.ml;
 
-import com.capstone.dyslexia.domain.question.domain.QuestionType;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class GradeMLRequest {
 
+    @Getter
     @Builder
     public static class Word {
         private String submissionAnswerFilePath;
@@ -13,6 +15,7 @@ public class GradeMLRequest {
         private String questionContent;
     }
 
+    @Getter
     @Builder
     public static class Sentence {
         private String submissionAnswerFilePath;

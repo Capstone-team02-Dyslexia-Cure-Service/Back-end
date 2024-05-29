@@ -4,7 +4,6 @@ package com.capstone.dyslexia.domain.dateAchievement.presentation;
 import com.capstone.dyslexia.domain.dateAchievement.application.DateAchievementService;
 import com.capstone.dyslexia.domain.dateAchievement.dto.request.DateAchievementPeriodRequestDto;
 import com.capstone.dyslexia.domain.dateAchievement.dto.response.DateAchievementResponseDto;
-import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

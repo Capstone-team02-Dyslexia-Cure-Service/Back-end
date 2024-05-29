@@ -83,6 +83,8 @@ public class SolvingRecordService {
             throw new InternalServerException(INTERNAL_SERVER, "Solving Record 생성 및 Question 정답 유무 생성에 문제 발생. 서버 관리자에게 문의 바랍니다.");
         }
 
+        memberService.updateMemberLevel(member);
+
         return solvingRecordCreateResponseDtoList;
     }
 

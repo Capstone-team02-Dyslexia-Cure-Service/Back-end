@@ -28,6 +28,9 @@ public class Member extends BaseEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "age")
     private Integer age;
 
@@ -53,11 +56,4 @@ public class Member extends BaseEntity {
         this.level = level;
     }
 
-    public void addSolvingRecordList(SolvingRecord solvingRecord) {
-        this.solvingRecordList.add(solvingRecord);
-    }
-
-    public void addDateAchievementList(DateAchievement dateAchievement) {
-        this.dateAchievementList.add(dateAchievement);
-    }
 }

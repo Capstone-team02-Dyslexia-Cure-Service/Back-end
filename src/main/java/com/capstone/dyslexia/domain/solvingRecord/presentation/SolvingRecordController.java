@@ -5,7 +5,6 @@ import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordServi
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
-import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

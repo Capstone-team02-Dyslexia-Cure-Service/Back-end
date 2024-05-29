@@ -1,5 +1,7 @@
 package com.capstone.dyslexia.domain.member.application;
 
+import com.capstone.dyslexia.domain.dateAchievement.domain.DateAchievement;
+import com.capstone.dyslexia.domain.dateAchievement.domain.repository.DateAchievementRepository;
 import com.capstone.dyslexia.domain.level.application.LevelRangeService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.member.domain.repository.MemberRepository;
@@ -9,12 +11,17 @@ import com.capstone.dyslexia.domain.member.dto.request.MemberUpdateRequestDto;
 import com.capstone.dyslexia.domain.member.dto.response.MemberResponseDto;
 import com.capstone.dyslexia.domain.store.domain.Store;
 import com.capstone.dyslexia.domain.store.domain.repository.StoreRepository;
+import com.capstone.dyslexia.global.error.ErrorCode;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
+import com.capstone.dyslexia.global.error.exceptions.InternalServerException;
 import com.capstone.dyslexia.global.error.exceptions.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.List;
 
 import static com.capstone.dyslexia.global.error.ErrorCode.INVALID_SIGNIN;
 import static com.capstone.dyslexia.global.error.ErrorCode.ROW_DOES_NOT_EXIST;
@@ -26,14 +33,20 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
+    private final DateAchievementRepository dateAchievementRepository;
 
     @Transactional
     public MemberResponseDto signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
         Store store = Store.builder().build();
 
+        if (memberRepository.findByEmail(memberSignUpRequestDto.getEmail()).isPresent()) {
+            throw new BadRequestException(ROW_DOES_NOT_EXIST, "이미 존재하는 이메일입니다.");
+        }
+
         Member member = Member.builder()
                 .email(memberSignUpRequestDto.getEmail())
                 .password(memberSignUpRequestDto.getPassword())
+                .name(memberSignUpRequestDto.getName())
                 .age(memberSignUpRequestDto.getAge())
                 .store(store)
                 .level(1.0)
@@ -45,6 +58,7 @@ public class MemberService {
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .email(member.getEmail())
+                .name(member.getName())
                 .age(member.getAge())
                 .level(member.getLevel())
                 .build();
@@ -61,6 +75,7 @@ public class MemberService {
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .email(member.getEmail())
+                .name(member.getName())
                 .age(member.getAge())
                 .level(member.getLevel())
                 .build();
@@ -86,6 +101,7 @@ public class MemberService {
                 .id(member.getId())
                 .email(member.getEmail())
                 .password(member.getPassword())
+                .name(member.getName())
                 .age(member.getAge())
                 .level(member.getLevel())
                 .build();
@@ -94,6 +110,30 @@ public class MemberService {
     public Member memberValidation(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BadRequestException(ROW_DOES_NOT_EXIST, "잘못된 Member ID 입니다."));
+    }
+
+    @Transactional
+    public Member updateMemberLevel(Member member) {
+        List<DateAchievement> dateAchievementList =
+                dateAchievementRepository.findTopByMemberOrderByAchievementDateDesc(
+                        member,
+                        PageRequest.of(0, 7)
+                ).getContent();
+
+        if (dateAchievementList.isEmpty()) {
+            throw new InternalServerException(ErrorCode.INTERNAL_SERVER, "No achievements found for the member.");
+        }
+
+        Double averageScore = dateAchievementList.stream()
+                .mapToDouble(DateAchievement::getScore)
+                .average()
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER, "No average score found for the member."));
+
+        member.updateMemberLevel(averageScore);
+
+        memberRepository.save(member);
+
+        return member;
     }
 
 }

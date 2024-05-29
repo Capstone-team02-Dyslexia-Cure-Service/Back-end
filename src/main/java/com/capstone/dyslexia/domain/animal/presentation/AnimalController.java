@@ -3,7 +3,6 @@ package com.capstone.dyslexia.domain.animal.presentation;
 import com.capstone.dyslexia.domain.animal.application.AnimalService;
 import com.capstone.dyslexia.domain.animal.domain.AnimalType;
 import com.capstone.dyslexia.domain.animal.dto.response.AnimalResponseDto;
-import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
