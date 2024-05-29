@@ -7,6 +7,7 @@ import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,44 +24,49 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/create_word")
-    public ApiResponseTemplate<QuestionResponseDto.CreateWord> createWord(
+    @ResponseStatus(HttpStatus.CREATED)
+    public QuestionResponseDto.CreateWord createWord(
             @RequestBody String content
     ) {
-        return ApiResponseTemplate.created(questionService.createWord(content));
+        return questionService.createWord(content);
     }
 
     @PostMapping(value = "/create_sentence", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponseTemplate<QuestionResponseDto.CreateSentence> createSentence(
+    @ResponseStatus(HttpStatus.CREATED)
+    public QuestionResponseDto.CreateSentence createSentence(
             @RequestPart String content,
             @RequestPart(required = false) MultipartFile pronunciationFile,
             @RequestPart(required = false) MultipartFile videoFile
     ) {
-        return ApiResponseTemplate.created(questionService.createSentence(content, pronunciationFile, videoFile));
+        return questionService.createSentence(content, pronunciationFile, videoFile);
     }
 
 
     @GetMapping("/id")
-    public ApiResponseTemplate<QuestionResponseDto.Find> getQuestionById(
+    @ResponseStatus(HttpStatus.OK)
+    public QuestionResponseDto.Find getQuestionById(
             @RequestHeader Long memberId,
             @RequestHeader Long questionId
     ) {
-        return ApiResponseTemplate.ok(questionService.getQuestionById(memberId, questionId));
+        return questionService.getQuestionById(memberId, questionId);
     }
 
     @GetMapping("/random_list")
-    public ApiResponseTemplate<List<QuestionResponseDto.GetRandom>> getRandomQuestionList(
+    @ResponseStatus(HttpStatus.OK)
+    public List<QuestionResponseDto.GetRandom> getRandomQuestionList(
             @RequestHeader Long memberId,
             @Positive @RequestHeader Long numOfQuestions
     ) {
-        return ApiResponseTemplate.ok(questionService.getRandomQuestionList(memberId, numOfQuestions));
+        return questionService.getRandomQuestionList(memberId, numOfQuestions);
     }
 
     @GetMapping("/random_edu")
-    public ApiResponseTemplate<List<QuestionResponseDto.Find>> getRandomQuestionEduList(
+    @ResponseStatus(HttpStatus.OK)
+    public List<QuestionResponseDto.Find> getRandomQuestionEduList(
             @RequestHeader Long memberId,
             @Positive @RequestHeader Long numOfQuestions
     ) {
-        return ApiResponseTemplate.ok(questionService.getRandomQuestionEduList(memberId, numOfQuestions));
+        return questionService.getRandomQuestionEduList(memberId, numOfQuestions);
     }
 
 }
