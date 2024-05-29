@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -24,32 +25,35 @@ public class DateAchievementController {
     private final DateAchievementService dateAchievementService;
 
     @GetMapping("/all")
-    public ApiResponseTemplate<List<DateAchievementResponseDto.Find>> findAllByMemberId(
+    @ResponseStatus(HttpStatus.OK)
+    public List<DateAchievementResponseDto.Find> findAllByMemberId(
             @RequestParam int pageNumber,
             @RequestParam int size,
             @RequestHeader Long memberId
     ) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("achievementDate").descending());
-        return ApiResponseTemplate.ok(dateAchievementService.findAllByMemberId(memberId, pageRequest));
+        return dateAchievementService.findAllByMemberId(memberId, pageRequest);
     }
 
     @GetMapping
-    public ApiResponseTemplate<DateAchievementResponseDto.Find> findByDate(
+    @ResponseStatus(HttpStatus.OK)
+    public DateAchievementResponseDto.Find findByDate(
             @RequestHeader Long memberId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
-        return ApiResponseTemplate.ok(dateAchievementService.findByDate(memberId, date));
+        return dateAchievementService.findByDate(memberId, date);
     }
 
     @PostMapping("/period")
-    public ApiResponseTemplate<List<DateAchievementResponseDto.Find>> findByPeriod(
+    @ResponseStatus(HttpStatus.OK)
+    public List<DateAchievementResponseDto.Find> findByPeriod(
             @RequestParam int pageNumber,
             @RequestParam int size,
             @RequestHeader Long memberId,
             @RequestBody DateAchievementPeriodRequestDto.FindByPeriod dateAchievementPeriodRequestDto
     ) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("achievementDate").descending());
-        return ApiResponseTemplate.ok(dateAchievementService.findByPeriod(memberId, pageRequest, dateAchievementPeriodRequestDto));
+        return dateAchievementService.findByPeriod(memberId, pageRequest, dateAchievementPeriodRequestDto);
     }
 
 }
