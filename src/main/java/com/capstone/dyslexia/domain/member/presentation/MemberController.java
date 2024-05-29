@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,52 +29,40 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "회원 가입", description = "회원 가입을 처리합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "회원 가입 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = MemberResponseDto.class))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    })
-    public ApiResponseTemplate<MemberResponseDto> signUp(
+    public MemberResponseDto signUp(
             @Valid @RequestBody MemberSignUpRequestDto memberSignUpRequestDto
     ) {
-        return ApiResponseTemplate.created(memberService.signUp(memberSignUpRequestDto));
+        return memberService.signUp(memberSignUpRequestDto);
     }
 
     @PostMapping("/signin")
     @Operation(summary = "회원 로그인", description = "회원 로그인을 처리합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원 로그인 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = MemberResponseDto.class))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    })
-    public ApiResponseTemplate<MemberResponseDto> signIn(
+    @ResponseStatus(HttpStatus.OK)
+    public MemberResponseDto signIn(
             @Valid @RequestBody MemberSignInRequestDto memberSignInRequestDto
     ) {
-        return ApiResponseTemplate.ok(memberService.signIn(memberSignInRequestDto));
+        return memberService.signIn(memberSignInRequestDto);
     }
 
     @PutMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "회원 정보 수정", description = "회원 정보를 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원 정보 수정 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = {MemberResponseDto.class}))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    })
-    public ApiResponseTemplate<MemberResponseDto> updateMember(
+    public MemberResponseDto updateMember(
             @RequestHeader Long memberId,
             @Valid @RequestBody MemberUpdateRequestDto memberUpdateRequestDto
     ) {
-        return ApiResponseTemplate.ok(memberService.updateMember(memberId, memberUpdateRequestDto));
+        return memberService.updateMember(memberId, memberUpdateRequestDto);
     }
 
     @GetMapping("/find")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "회원 정보 조회", description = "회원 정보를 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공", content = @Content(schema = @Schema(implementation = ApiResponseTemplate.class, subTypes = {MemberResponseDto.class}))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청")
-    })
-    public ApiResponseTemplate<MemberResponseDto> findMemberById(
+    public MemberResponseDto findMemberById(
             @Valid @RequestHeader Long memberId
     ) {
-        return ApiResponseTemplate.ok(memberService.findMemberById(memberId));
+        return memberService.findMemberById(memberId);
     }
 
 }
