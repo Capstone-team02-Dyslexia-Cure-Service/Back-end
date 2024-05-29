@@ -6,6 +6,7 @@ import com.capstone.dyslexia.domain.animal.dto.response.AnimalResponseDto;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,43 +20,48 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @PostMapping("/buy")
-    public ApiResponseTemplate<AnimalResponseDto> createAnimal(
+    @ResponseStatus(HttpStatus.CREATED)
+    public AnimalResponseDto createAnimal(
             @RequestHeader Long memberId,
             @RequestBody AnimalType animalType
             ) {
-        return ApiResponseTemplate.created(animalService.createAnimal(memberId, animalType));
+        return animalService.createAnimal(memberId, animalType);
     }
 
     @PostMapping("/update")
-    public ApiResponseTemplate<AnimalResponseDto> updateAnimal(
+    @ResponseStatus(HttpStatus.OK)
+    public AnimalResponseDto updateAnimal(
             @RequestHeader Long memberId,
             @RequestHeader Long animalId,
             @RequestBody String nickname
     ) {
-        return ApiResponseTemplate.ok(animalService.updateAnimal(memberId, animalId, nickname));
+        return animalService.updateAnimal(memberId, animalId, nickname);
     }
 
     @GetMapping("/all")
-    public ApiResponseTemplate<List<AnimalResponseDto>> findAllAnimal(
+    @ResponseStatus(HttpStatus.OK)
+    public List<AnimalResponseDto> findAllAnimal(
             @RequestHeader Long memberId
     ) {
-        return ApiResponseTemplate.ok(animalService.findAllAnimal(memberId));
+        return animalService.findAllAnimal(memberId);
     }
 
     @GetMapping
-    public ApiResponseTemplate<AnimalResponseDto> findAnimalById(
+    @ResponseStatus(HttpStatus.OK)
+    public AnimalResponseDto findAnimalById(
             @RequestHeader Long memberId,
             @RequestHeader Long animalId
     ) {
-        return ApiResponseTemplate.ok(animalService.findAnimalById(memberId, animalId));
+        return animalService.findAnimalById(memberId, animalId);
     }
 
     @GetMapping("/feed")
-    public ApiResponseTemplate<AnimalResponseDto> feedAnimal(
+    @ResponseStatus(HttpStatus.OK)
+    public AnimalResponseDto feedAnimal(
             @RequestHeader Long memberId,
             @RequestHeader Long animalId
     ) {
-        return ApiResponseTemplate.ok(animalService.feedAnimal(memberId, animalId));
+        return animalService.feedAnimal(memberId, animalId);
     }
 
 }
