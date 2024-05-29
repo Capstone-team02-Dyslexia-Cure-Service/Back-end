@@ -4,12 +4,12 @@ import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
-import com.capstone.dyslexia.global.HttpMessageConverter.MultipartJackson2HttpMessageConverter;
 import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import com.capstone.dyslexia.global.payload.ApiResponseTemplate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,17 +30,19 @@ public class SolvingRecordController {
     private final SolvingRecordService solvingRecordService;
 
     @GetMapping
-    public ApiResponseTemplate<SolvingRecordResponseDto.Find> findSolvingRecordById(
+    @ResponseStatus(HttpStatus.OK)
+    public SolvingRecordResponseDto.Find findSolvingRecordById(
             @RequestHeader Long memberId,
             @RequestHeader Long solvingRecordId,
             @Valid @RequestPart List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList
     ) {
-        return ApiResponseTemplate.ok(solvingRecordService.findSolvingRecordById(memberId, solvingRecordId));
+        return solvingRecordService.findSolvingRecordById(memberId, solvingRecordId);
     }
 
 
     @PostMapping(value = "/create/list", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponseTemplate<List<SolvingRecordResponseDto.Create>> createSolvingRecordList(
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<SolvingRecordResponseDto.Create> createSolvingRecordList(
             @RequestHeader Long memberId,
             @Valid @RequestPart List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList,
             @RequestPart(required = false) List<MultipartFile> answerFileList
@@ -64,7 +66,7 @@ public class SolvingRecordController {
 
             solvingRecordRequestConvertDtoList.add(new SolvingRecordRequestDto.Convert(requestDto, answerFile));
         }
-        return ApiResponseTemplate.created(solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestConvertDtoList));
+        return solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestConvertDtoList);
     }
 
 
