@@ -8,7 +8,6 @@ import com.capstone.dyslexia.domain.member.application.MemberService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
-import com.capstone.dyslexia.domain.solvingRecord.domain.repository.SolvingRecordRepository;
 import com.capstone.dyslexia.global.error.ErrorCode;
 import com.capstone.dyslexia.global.error.exceptions.InternalServerException;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +74,7 @@ public class DateAchievementService {
     @Transactional
     public DateAchievement addSolvingRecord(SolvingRecord solvingRecord) {
 
-        DateAchievement dateAchievement = null;
+        DateAchievement dateAchievement;
         if (dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt().toLocalDate()).isPresent()) {
             dateAchievement = dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt().toLocalDate()).get();
             dateAchievement.getSolvingRecordList().add(solvingRecord);

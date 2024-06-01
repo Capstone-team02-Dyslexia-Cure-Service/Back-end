@@ -143,7 +143,7 @@ public class QuestionService {
     }
 
     private QuestionWord getRandomQuestionWord() {
-        Long qty = questionWordRepository.count();
+        long qty = questionWordRepository.count();
         if (qty <= 0) {
             throw new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다.");
         }
@@ -156,7 +156,7 @@ public class QuestionService {
     }
 
     private QuestionSentence getRandomQuestionSentence() {
-        Long qty = questionSentenceRepository.count();
+        long qty = questionSentenceRepository.count();
         if (qty <= 0) {
             throw new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다.");
         }

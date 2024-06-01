@@ -1,7 +1,6 @@
 package com.capstone.dyslexia.domain.solvingRecord.domain;
 
 import com.capstone.dyslexia.domain.member.domain.Member;
-import com.capstone.dyslexia.domain.question.domain.Question;
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.domain.sentence.QuestionSentence;
 import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;

@@ -2,7 +2,6 @@ package com.capstone.dyslexia.domain.member.application;
 
 import com.capstone.dyslexia.domain.dateAchievement.domain.DateAchievement;
 import com.capstone.dyslexia.domain.dateAchievement.domain.repository.DateAchievementRepository;
-import com.capstone.dyslexia.domain.level.application.LevelRangeService;
 import com.capstone.dyslexia.domain.member.domain.Member;
 import com.capstone.dyslexia.domain.member.domain.repository.MemberRepository;
 import com.capstone.dyslexia.domain.member.dto.request.MemberSignInRequestDto;

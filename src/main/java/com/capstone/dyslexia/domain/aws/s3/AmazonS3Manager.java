@@ -4,7 +4,6 @@ package com.capstone.dyslexia.domain.aws.s3;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.capstone.dyslexia.domain.uuidFile.domain.UUIDFile;
 import com.capstone.dyslexia.global.config.s3.AwsS3Config;
 import com.capstone.dyslexia.global.error.exceptions.InternalServerException;
 import lombok.RequiredArgsConstructor;

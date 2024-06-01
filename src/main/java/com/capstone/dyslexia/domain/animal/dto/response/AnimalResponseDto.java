@@ -1,7 +1,6 @@
 package com.capstone.dyslexia.domain.animal.dto.response;
 
 import com.capstone.dyslexia.domain.animal.domain.Animal;
-import com.capstone.dyslexia.domain.animal.domain.AnimalType;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -30,9 +30,14 @@ public class ConstraintExceptionDto<T>  {
         this.timestamp = LocalDateTime.now();
 
         List<String> errors = new ArrayList<>();
-        exception.getConstraintViolations().forEach(violation -> {
-            errors.add(violation.getRootBeanClass().getSimpleName() + "." + violation.getPropertyPath().toString() + ": " + violation.getMessage());
-        });
+        exception.getConstraintViolations().forEach(
+                violation -> errors.add(
+                        violation.getRootBeanClass().getSimpleName()
+                                + "."
+                                + violation.getPropertyPath().toString()
+                                + ": "
+                                + violation.getMessage()
+                ));
         this.violations = errors;
     }
 }
