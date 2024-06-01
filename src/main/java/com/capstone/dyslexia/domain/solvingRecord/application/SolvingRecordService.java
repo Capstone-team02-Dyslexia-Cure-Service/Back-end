@@ -190,16 +190,9 @@ public class SolvingRecordService {
     }
 
     // TODO : ML 통신 구현
-    private GradeMLResponse gradeMLServer(GradeMLRequest.Word gradeMLRequest) {
+    private GradeMLResponse gradeMLServer(GradeMLRequest.Request gradeMLRequest) {
         GradeMLResponse gradeMLResponse = new GradeMLResponse();
         return gradeMLResponse;
     }
-
-    // TODO : ML 통신 구현
-    private GradeMLResponse gradeMLServer(GradeMLRequest.Sentence gradeMLRequest) {
-        GradeMLResponse gradeMLResponse = new GradeMLResponse();
-        return gradeMLResponse;
-    }
-
 
 }
