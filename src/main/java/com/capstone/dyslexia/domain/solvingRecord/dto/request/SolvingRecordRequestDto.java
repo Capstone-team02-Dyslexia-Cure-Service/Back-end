@@ -19,24 +19,8 @@ public class SolvingRecordRequestDto {
         private String questionResponseType;
 
         private String answer;
-    }
-
-    @Getter
-    public static class Convert {
-        private Long questionId;
-
-        private QuestionResponseType questionResponseType;
-
-        private String answer;
 
         private MultipartFile answerFile;
-
-        public Convert(Create create, MultipartFile answerFile) {
-            this.questionId = create.getQuestionId();
-            this.questionResponseType = QuestionResponseType.valueOf(create.getQuestionResponseType());
-            this.answer = create.getAnswer();
-            this.answerFile = answerFile;
-        }
     }
 
     @Getter
@@ -47,10 +31,10 @@ public class SolvingRecordRequestDto {
 
         private String answer;
 
-        public CreateString(Convert convertWithFile) {
-            this.questionId = convertWithFile.getQuestionId();
-            this.questionResponseType = convertWithFile.getQuestionResponseType();
-            this.answer = convertWithFile.getAnswer();
+        public CreateString(Create createDto) {
+            this.questionId = createDto.getQuestionId();
+            this.questionResponseType = QuestionResponseType.valueOf(createDto.getQuestionResponseType());
+            this.answer = createDto.getAnswer();
         }
     }
 
@@ -62,10 +46,10 @@ public class SolvingRecordRequestDto {
 
         private MultipartFile answerFile;
 
-        public CreateFile(Convert convertWithFile) {
-            this.questionId = convertWithFile.getQuestionId();
-            this.questionResponseType = convertWithFile.getQuestionResponseType();
-            this.answerFile = convertWithFile.getAnswerFile();
+        public CreateFile(Create createDto) {
+            this.questionId = createDto.getQuestionId();
+            this.questionResponseType = QuestionResponseType.valueOf(createDto.getQuestionResponseType());
+            this.answerFile = createDto.getAnswerFile();
         }
     }
 

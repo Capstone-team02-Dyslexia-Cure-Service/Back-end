@@ -32,8 +32,7 @@ public class SolvingRecordController {
     @ResponseStatus(HttpStatus.OK)
     public SolvingRecordResponseDto.Find findSolvingRecordById(
             @RequestHeader Long memberId,
-            @RequestHeader Long solvingRecordId,
-            @Valid @RequestPart List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList
+            @RequestHeader Long solvingRecordId
     ) {
         return solvingRecordService.findSolvingRecordById(memberId, solvingRecordId);
     }
@@ -43,29 +42,21 @@ public class SolvingRecordController {
     @ResponseStatus(HttpStatus.CREATED)
     public List<SolvingRecordResponseDto.Create> createSolvingRecordList(
             @RequestHeader Long memberId,
-            @Valid @RequestPart List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList,
-            @RequestPart(required = false) List<MultipartFile> answerFileList
+            @ModelAttribute("solvingRecordRequestDtoList") List<SolvingRecordRequestDto.Create> solvingRecordRequestDtoList
     ) {
-        if (solvingRecordRequestDtoList.size() != answerFileList.size()) {
-            throw new BadRequestException(INVALID_PARAMETER, "문제 풀이 기록과 파일 개수가 일치하지 않습니다.");
+        for (SolvingRecordRequestDto.Create solvingRecordRequestDto : solvingRecordRequestDtoList) {
+            if (solvingRecordRequestDto.getQuestionResponseType().equals(READ_WORD.name()) || solvingRecordRequestDto.getQuestionResponseType().equals(READ_SENTENCE.name())) {
+                if (solvingRecordRequestDto.getAnswerFile() == null) {
+                    throw new BadRequestException(INVALID_PARAMETER, "파일이 없습니다.");
+                }
+            } else {
+                if (solvingRecordRequestDto.getAnswer() == null) {
+                    throw new BadRequestException(INVALID_PARAMETER, "답이 없습니다.");
+                }
+            }
         }
 
-        List<SolvingRecordRequestDto.Convert> solvingRecordRequestConvertDtoList = new ArrayList<>();
-        for (int i = 0; i < solvingRecordRequestDtoList.size(); i++) {
-            SolvingRecordRequestDto.Create requestDto = solvingRecordRequestDtoList.get(i);
-            MultipartFile answerFile = answerFileList.get(i);
-
-            QuestionResponseType questionResponseType = QuestionResponseType.valueOf(requestDto.getQuestionResponseType());
-
-            if (questionResponseType.equals(SELECT_WORD) || questionResponseType.equals(WRITE_WORD)) {
-                if (answerFile.isEmpty()) throw new BadRequestException(INVALID_PARAMETER, "SELECT WORD와 WRITE WORD는 file을 포함하면 안 됩니다.");
-            } else if (questionResponseType.equals(READ_WORD) || questionResponseType.equals(READ_SENTENCE)) {
-                if (requestDto.getAnswer().isEmpty()) throw new BadRequestException(INVALID_PARAMETER, "READ WORD와 READ SENTENCE는 answer(String)를 포함하면 안 됩니다.");
-            } else throw new BadRequestException(INVALID_PARAMETER, "잘못된 문제 타입입니다");
-
-            solvingRecordRequestConvertDtoList.add(new SolvingRecordRequestDto.Convert(requestDto, answerFile));
-        }
-        return solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestConvertDtoList);
+        return solvingRecordService.createSolvingRecordList(memberId, solvingRecordRequestDtoList);
     }
 
 

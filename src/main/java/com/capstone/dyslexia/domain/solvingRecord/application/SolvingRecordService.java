@@ -63,17 +63,17 @@ public class SolvingRecordService {
 
 
     @Transactional
-    public List<SolvingRecordResponseDto.Create> createSolvingRecordList(Long memberId, List<SolvingRecordRequestDto.Convert> solvingRecordRequestConvertDtoList) {
+    public List<SolvingRecordResponseDto.Create> createSolvingRecordList(Long memberId, List<SolvingRecordRequestDto.Create> solvingRecordRequestConvertDtoList) {
         Member member = memberService.memberValidation(memberId);
 
         List<SolvingRecordResponseDto.Create> solvingRecordCreateResponseDtoList = new ArrayList<>();
 
-        for (SolvingRecordRequestDto.Convert requestDto : solvingRecordRequestConvertDtoList) {
-            if (requestDto.getQuestionResponseType().equals(SELECT_WORD) || requestDto.getQuestionResponseType().equals(WRITE_WORD)) {
+        for (SolvingRecordRequestDto.Create requestDto : solvingRecordRequestConvertDtoList) {
+            if (requestDto.getQuestionResponseType().equals(SELECT_WORD.name()) || requestDto.getQuestionResponseType().equals(WRITE_WORD.name())) {
                 solvingRecordCreateResponseDtoList.add(gradeQuestionWord(member, new SolvingRecordRequestDto.CreateString(requestDto)));
-            } else if (requestDto.getQuestionResponseType().equals(READ_WORD)) {
+            } else if (requestDto.getQuestionResponseType().equals(READ_WORD.name())) {
                 solvingRecordCreateResponseDtoList.add(gradeQuestionWord(member, new SolvingRecordRequestDto.CreateFile(requestDto)));
-            } else if (requestDto.getQuestionResponseType().equals(READ_SENTENCE)) {
+            } else if (requestDto.getQuestionResponseType().equals(READ_SENTENCE.name())) {
                 solvingRecordCreateResponseDtoList.add(gradeQuestionSentence(member, new SolvingRecordRequestDto.CreateFile(requestDto)));
             }
             else throw new BadRequestException(INVALID_PARAMETER, "유효하지 않은 Question Response Type 입니다.");

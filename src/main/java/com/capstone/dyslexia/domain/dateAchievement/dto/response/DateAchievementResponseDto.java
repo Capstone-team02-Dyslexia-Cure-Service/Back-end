@@ -5,6 +5,7 @@ import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class DateAchievementResponseDto {
         private Long memberId;
         private List<Long> solvingRecordIdList;
         private Double score;
+        private LocalDate achievementDate;
 
         public static Find from(DateAchievement dateAchievement) {
             return Find.builder()

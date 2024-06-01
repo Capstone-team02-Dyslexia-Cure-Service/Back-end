@@ -10,4 +10,7 @@ public class GradeMLResponse {
 
     private MultipartFile answerFile;
 
+    // 단어 쓰기에선 쓰기, 읽기고
+    // 문장에서는 속도까지.
+
 }
