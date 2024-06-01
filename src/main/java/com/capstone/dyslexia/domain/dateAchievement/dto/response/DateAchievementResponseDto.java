@@ -27,6 +27,7 @@ public class DateAchievementResponseDto {
                     .memberId(dateAchievement.getMember().getId())
                     .solvingRecordIdList(dateAchievement.getSolvingRecordList().stream().map(SolvingRecord::getId).toList())
                     .score(dateAchievement.getScore())
+                    .achievementDate(dateAchievement.getAchievementDate())
                     .build();
         }
     }
