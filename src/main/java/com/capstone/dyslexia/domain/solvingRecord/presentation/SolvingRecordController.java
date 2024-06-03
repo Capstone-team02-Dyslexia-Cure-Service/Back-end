@@ -3,7 +3,6 @@ package com.capstone.dyslexia.domain.solvingRecord.presentation;
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
-import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,9 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import static com.capstone.dyslexia.domain.question.domain.QuestionResponseType.*;
-import static com.capstone.dyslexia.global.error.ErrorCode.INVALID_PARAMETER;
 
 @RestController
 @RequiredArgsConstructor

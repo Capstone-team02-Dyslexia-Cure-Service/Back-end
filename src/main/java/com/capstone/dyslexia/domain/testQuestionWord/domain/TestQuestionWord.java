@@ -3,11 +3,7 @@ package com.capstone.dyslexia.domain.testQuestionWord.domain;
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
-import com.capstone.dyslexia.domain.solvingRecord.dto.ml.GradeMLResponse;
 import com.capstone.dyslexia.global.domain.BaseEntity;
-import com.capstone.dyslexia.global.error.ErrorCode;
-import com.capstone.dyslexia.global.error.exceptions.BadRequestException;
-import com.capstone.dyslexia.global.error.exceptions.InternalServerException;
 import jakarta.persistence.*;
 import lombok.*;
 

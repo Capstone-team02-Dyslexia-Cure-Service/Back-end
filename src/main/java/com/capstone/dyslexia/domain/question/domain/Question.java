@@ -3,7 +3,6 @@ package com.capstone.dyslexia.domain.question.domain;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

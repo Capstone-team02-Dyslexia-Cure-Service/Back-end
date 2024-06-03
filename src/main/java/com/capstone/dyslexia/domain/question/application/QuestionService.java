@@ -11,7 +11,6 @@ import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
 import com.capstone.dyslexia.domain.question.domain.word.repository.QuestionWordRepository;
 import com.capstone.dyslexia.domain.question.dto.response.QuestionResponseDto;
 import com.capstone.dyslexia.domain.uuidFile.application.UUIDFileService;
-import com.capstone.dyslexia.domain.uuidFile.domain.UUIDFile;
 import com.capstone.dyslexia.global.error.exceptions.InternalServerException;
 import com.capstone.dyslexia.global.error.exceptions.ServiceUnavailableException;
 import lombok.RequiredArgsConstructor;

@@ -4,6 +4,6 @@ public enum AnimalHabitatType {
 
     OCEAN,
     POLAR_REGIONS,
-    JUNGLE;
+    JUNGLE
 
 }

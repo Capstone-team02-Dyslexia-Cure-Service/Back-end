@@ -3,14 +3,10 @@ package com.capstone.dyslexia.domain.testQuestionsentence.domain;
 
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.domain.sentence.QuestionSentence;
-import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
-import com.capstone.dyslexia.domain.solvingRecord.dto.ml.GradeMLResponse;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import javax.swing.text.StyledEditorKit;
 
 @Entity
 @Getter

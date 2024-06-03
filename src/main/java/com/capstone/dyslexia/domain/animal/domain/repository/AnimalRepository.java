@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
 
-    public List<Animal> findAllByStore(Store store);
+    List<Animal> findAllByStore(Store store);
 }

@@ -2,8 +2,8 @@ package com.capstone.dyslexia.global.util;
 
 public class StaticValue {
 
-    public static String wavFileExtension = ".wav";
+    public static final String wavFileExtension = ".wav";
 
-    public static String mp4FileExtension = ".mp4";
+    public static final String mp4FileExtension = ".mp4";
 
 }

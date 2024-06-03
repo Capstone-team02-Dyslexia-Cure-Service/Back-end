@@ -1,13 +1,9 @@
 package com.capstone.dyslexia.domain.solvingRecord.dto.response;
 
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
-import com.capstone.dyslexia.domain.question.domain.sentence.QuestionSentence;
-import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
