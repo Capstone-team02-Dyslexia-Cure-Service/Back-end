@@ -5,6 +5,7 @@ import com.capstone.dyslexia.domain.store.dto.request.StoreResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +18,10 @@ public class StoreController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public StoreResponseDto findAllOwnedAnimal(
+    public ResponseEntity<StoreResponseDto> findAllOwnedAnimal(
             @RequestHeader Long memberId
     ) {
-        return storeService.findAllOwnedAnimal(memberId);
+        return ResponseEntity.ok(storeService.findAllOwnedAnimal(memberId));
     }
 
 }

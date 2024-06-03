@@ -46,3 +46,12 @@ logging:
         type:
           descriptor:
             sql: debug
+
+      springframework:
+        web:
+          servlet:
+            dispatcher: DEBUG
+
+    com:
+      capstone:
+        dyslexia: DEBUG

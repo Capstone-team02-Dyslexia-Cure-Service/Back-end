@@ -23,6 +23,8 @@ public interface DateAchievementRepository extends JpaRepository<DateAchievement
 
     Optional<DateAchievement> findByAchievementDate(LocalDate createdAtDate);
 
+    List<DateAchievement> findByAchievementDateIn(List<LocalDate> achievementDates);
+
     @Query("SELECT da FROM DateAchievement da WHERE da.member = :member ORDER BY da.achievementDate DESC")
     Page<DateAchievement> findTopByMemberOrderByAchievementDateDesc(Member member, Pageable pageable);
 

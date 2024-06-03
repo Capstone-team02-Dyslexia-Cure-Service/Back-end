@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,48 +73,61 @@ public class DateAchievementService {
     }
 
     @Transactional
-    public DateAchievement addSolvingRecord(SolvingRecord solvingRecord) {
+    public List<DateAchievement> addSolvingRecord(List<SolvingRecord> solvingRecordList) {
+        // 초기화된 dateAchievementList 생성
+        List<DateAchievement> dateAchievementList = new ArrayList<>();
 
-        DateAchievement dateAchievement;
-        if (dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt().toLocalDate()).isPresent()) {
-            dateAchievement = dateAchievementRepository.findByAchievementDate(solvingRecord.getCreatedAt().toLocalDate()).get();
+        // solvingRecordList의 각 날짜에 해당하는 DateAchievement를 처리
+        for (SolvingRecord solvingRecord : solvingRecordList) {
+            LocalDate achievementDate = solvingRecord.getCreatedAt().toLocalDate();
+
+            // dateAchievementList에서 해당 날짜의 DateAchievement 찾기
+            DateAchievement dateAchievement = dateAchievementList.stream()
+                    .filter(da -> da.getAchievementDate().equals(achievementDate))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        // 찾지 못하면 DB에서 해당 날짜의 DateAchievement 찾기
+                        return dateAchievementRepository.findByAchievementDate(achievementDate)
+                                .orElseGet(() -> {
+                                    // DB에도 없으면 새로운 DateAchievement 생성
+                                    DateAchievement newDateAchievement = DateAchievement.builder()
+                                            .member(solvingRecord.getMember())
+                                            .achievementDate(achievementDate)
+                                            .score(0.0D)
+                                            .solvingRecordList(new ArrayList<>())
+                                            .build();
+                                    dateAchievementList.add(newDateAchievement);
+                                    return newDateAchievement;
+                                });
+                    });
+
+            // 해당 날짜의 DateAchievement에 solvingRecord 추가
             dateAchievement.getSolvingRecordList().add(solvingRecord);
-        } else {
-            dateAchievement = DateAchievement.builder()
-                    .member(solvingRecord.getMember())
-                    .achievementDate(solvingRecord.getCreatedAt().toLocalDate())
-                    .score(0.0D)
-                    .build();
-            List<SolvingRecord> solvingRecordList = new ArrayList<>();
-            solvingRecordList.add(solvingRecord);
-            dateAchievement.setSolvingRecordList(solvingRecordList);
         }
 
-        if (!dateAchievement.getAchievementDate().equals(solvingRecord.getCreatedAt().toLocalDate())
-                || !dateAchievement.getMember().getId().equals(solvingRecord.getMember().getId())) {
-            throw new InternalServerException(ErrorCode.INTERNAL_SERVER,
-                    String.format("SolvingRecord의 날짜(%s)와 member(%d)가 DateAchievement와 일치하지 않습니다.",
-                            solvingRecord.getCreatedAt().toLocalDate(), solvingRecord.getMember().getId()));
+        // 모든 DateAchievement를 한 번에 저장
+        dateAchievementRepository.saveAll(dateAchievementList);
+
+        for (DateAchievement dateAchievement : dateAchievementList) {
+            long numSelectWord = countByType(dateAchievement, QuestionResponseType.SELECT_WORD);
+            long numWriteWord = countByType(dateAchievement, QuestionResponseType.WRITE_WORD);
+            long numReadWord = countByType(dateAchievement, QuestionResponseType.READ_WORD);
+            long numReadSentence = countByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
+
+            long numCorrectSelectWord = numSelectWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.SELECT_WORD);
+            long numCorrectWriteWord = numWriteWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.WRITE_WORD);
+            long numCorrectReadWord = numReadWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.READ_WORD);
+            long numCorrectReadSentence = numReadSentence == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
+
+            double score = calculateScore(numSelectWord, numWriteWord, numReadWord, numReadSentence,
+                    numCorrectSelectWord, numCorrectWriteWord, numCorrectReadWord, numCorrectReadSentence);
+
+            dateAchievement.setScore(score);
         }
 
-        long numSelectWord = countByType(dateAchievement, QuestionResponseType.SELECT_WORD);
-        long numWriteWord = countByType(dateAchievement, QuestionResponseType.WRITE_WORD);
-        long numReadWord = countByType(dateAchievement, QuestionResponseType.READ_WORD);
-        long numReadSentence = countByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
+        dateAchievementRepository.saveAll(dateAchievementList);
 
-        long numCorrectSelectWord = numSelectWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.SELECT_WORD);
-        long numCorrectWriteWord = numWriteWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.WRITE_WORD);
-        long numCorrectReadWord = numReadWord == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.READ_WORD);
-        long numCorrectReadSentence = numReadSentence == 0 ? 0 : countCorrectByType(dateAchievement, QuestionResponseType.READ_SENTENCE);
-
-        double score = calculateScore(numSelectWord, numWriteWord, numReadWord, numReadSentence,
-                numCorrectSelectWord, numCorrectWriteWord, numCorrectReadWord, numCorrectReadSentence);
-
-        dateAchievement.setScore(score);
-
-        dateAchievementRepository.save(dateAchievement);
-
-        return dateAchievement;
+        return dateAchievementList;
     }
 
     private long countByType(DateAchievement dateAchievement, QuestionResponseType type) {

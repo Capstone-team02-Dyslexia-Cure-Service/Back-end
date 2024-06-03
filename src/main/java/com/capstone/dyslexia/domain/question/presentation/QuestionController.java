@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,48 +25,49 @@ public class QuestionController {
 
     @PostMapping("/create_word")
     @ResponseStatus(HttpStatus.CREATED)
-    public QuestionResponseDto.CreateWord createWord(
-            @RequestBody String content
+    public ResponseEntity<QuestionResponseDto.CreateWord> createWord(
+            @RequestBody String content,
+            @RequestPart(required = false) MultipartFile videoFile
     ) {
-        return questionService.createWord(content);
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createWord(content, videoFile));
     }
 
     @PostMapping(value = "/create_sentence", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public QuestionResponseDto.CreateSentence createSentence(
+    public ResponseEntity<QuestionResponseDto.CreateSentence> createSentence(
             @RequestPart String content,
             @RequestPart(required = false) MultipartFile pronunciationFile,
             @RequestPart(required = false) MultipartFile videoFile
     ) {
-        return questionService.createSentence(content, pronunciationFile, videoFile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createSentence(content, pronunciationFile, videoFile));
     }
 
 
     @GetMapping("/id")
     @ResponseStatus(HttpStatus.OK)
-    public QuestionResponseDto.Find getQuestionById(
+    public ResponseEntity<QuestionResponseDto.Find> getQuestionById(
             @RequestHeader Long memberId,
             @RequestHeader Long questionId
     ) {
-        return questionService.getQuestionById(memberId, questionId);
+        return ResponseEntity.ok(questionService.getQuestionById(memberId, questionId));
     }
 
     @GetMapping("/random_list")
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionResponseDto.GetRandom> getRandomQuestionList(
+    public ResponseEntity<List<QuestionResponseDto.GetRandom>> getRandomQuestionList(
             @RequestHeader Long memberId,
             @Positive @RequestHeader Long numOfQuestions
     ) {
-        return questionService.getRandomQuestionList(memberId, numOfQuestions);
+        return ResponseEntity.ok(questionService.getRandomQuestionList(memberId, numOfQuestions));
     }
 
     @GetMapping("/random_edu")
     @ResponseStatus(HttpStatus.OK)
-    public List<QuestionResponseDto.Find> getRandomQuestionEduList(
+    public ResponseEntity<List<QuestionResponseDto.Find>> getRandomQuestionEduList(
             @RequestHeader Long memberId,
             @Positive @RequestHeader Long numOfQuestions
     ) {
-        return questionService.getRandomQuestionEduList(memberId, numOfQuestions);
+        return ResponseEntity.ok(questionService.getRandomQuestionEduList(memberId, numOfQuestions));
     }
 
 }

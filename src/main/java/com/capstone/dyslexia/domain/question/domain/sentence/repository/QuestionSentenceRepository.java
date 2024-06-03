@@ -12,4 +12,5 @@ public interface QuestionSentenceRepository extends JpaRepository<QuestionSenten
 
     @Query("SELECT q FROM QuestionSentence q")
     Page<QuestionSentence> findRandomQuestions(Pageable pageable);
+
 }

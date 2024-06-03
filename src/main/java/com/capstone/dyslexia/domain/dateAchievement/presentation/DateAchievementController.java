@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -25,34 +26,34 @@ public class DateAchievementController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<DateAchievementResponseDto.Find> findAllByMemberId(
+    public ResponseEntity<List<DateAchievementResponseDto.Find>> findAllByMemberId(
             @RequestParam int pageNumber,
             @RequestParam int size,
             @RequestHeader Long memberId
     ) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("achievementDate").descending());
-        return dateAchievementService.findAllByMemberId(memberId, pageRequest);
+        return ResponseEntity.ok(dateAchievementService.findAllByMemberId(memberId, pageRequest));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public DateAchievementResponseDto.Find findByDate(
+    public ResponseEntity<DateAchievementResponseDto.Find> findByDate(
             @RequestHeader Long memberId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
-        return dateAchievementService.findByDate(memberId, date);
+        return ResponseEntity.ok(dateAchievementService.findByDate(memberId, date));
     }
 
     @PostMapping("/period")
     @ResponseStatus(HttpStatus.OK)
-    public List<DateAchievementResponseDto.Find> findByPeriod(
+    public ResponseEntity<List<DateAchievementResponseDto.Find>> findByPeriod(
             @RequestParam int pageNumber,
             @RequestParam int size,
             @RequestHeader Long memberId,
             @RequestBody DateAchievementPeriodRequestDto.FindByPeriod dateAchievementPeriodRequestDto
     ) {
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("achievementDate").descending());
-        return dateAchievementService.findByPeriod(memberId, pageRequest, dateAchievementPeriodRequestDto);
+        return ResponseEntity.ok(dateAchievementService.findByPeriod(memberId, pageRequest, dateAchievementPeriodRequestDto));
     }
 
 }

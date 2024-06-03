@@ -1,16 +1,25 @@
 package com.capstone.dyslexia.domain.solvingRecord.dto.ml;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter
 public class GradeMLResponse {
 
-    private Boolean isCorrect;
+    @Getter
+    public static class Word {
+        private String accuracyFeedback;
 
-    private MultipartFile answerFile;
+        private Boolean isCorrect;
+    }
 
-    // 단어 쓰기에선 쓰기, 읽기고
-    // 문장에서는 속도까지.
+    @Getter
+    public static class ReadSentence {
+        private String accuracyFeedback;
+
+        private Boolean isCorrect;
+
+        private String speedFeedback;
+    }
 
 }
