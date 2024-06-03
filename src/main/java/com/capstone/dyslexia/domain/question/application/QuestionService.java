@@ -61,13 +61,18 @@ public class QuestionService {
         return QuestionResponseDto.CreateSentence.from(questionSentence);
     }
 
-    public QuestionResponseDto.Find getQuestionById(Long memberId, Long questionRequestDto) {
-        Member member = memberService.memberValidation(memberId);
+    public QuestionResponseDto.Find getQuestionById(Long memberId, Long questionRequestDto, QuestionResponseType questionResponseType) {
+        memberService.memberValidation(memberId);
 
-        QuestionWord questionWord = questionWordRepository.findById(questionRequestDto)
-                .orElseThrow(() -> new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다."));
-
-        return QuestionResponseDto.Find.from(questionWord);
+        if (questionResponseType.equals(READ_SENTENCE)) {
+            QuestionSentence questionSentence = questionSentenceRepository.findById(questionRequestDto)
+                    .orElseThrow(() -> new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다."));
+            return QuestionResponseDto.Find.from(questionSentence);
+        } else {
+            QuestionWord questionWord = questionWordRepository.findById(questionRequestDto)
+                    .orElseThrow(() -> new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다."));
+            return QuestionResponseDto.Find.from(questionWord);
+        }
     }
 
     public List<QuestionResponseDto.GetRandom> getRandomQuestionList(Long memberId, Long numOfQuestions) {

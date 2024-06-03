@@ -2,6 +2,7 @@ package com.capstone.dyslexia.domain.question.presentation;
 
 
 import com.capstone.dyslexia.domain.question.application.QuestionService;
+import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.dto.response.QuestionResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
@@ -47,9 +48,10 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<QuestionResponseDto.Find> getQuestionById(
             @RequestHeader Long memberId,
-            @RequestHeader Long questionId
+            @RequestHeader Long questionId,
+            @RequestHeader QuestionResponseType questionResponseType
     ) {
-        return ResponseEntity.ok(questionService.getQuestionById(memberId, questionId));
+        return ResponseEntity.ok(questionService.getQuestionById(memberId, questionId, questionResponseType));
     }
 
     @GetMapping("/random_list")

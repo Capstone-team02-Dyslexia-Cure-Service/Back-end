@@ -1,5 +1,6 @@
 package com.capstone.dyslexia.domain.solvingRecord.presentation;
 
+import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
 import com.capstone.dyslexia.domain.solvingRecord.dto.response.SolvingRecordResponseDto;
@@ -33,12 +34,14 @@ public class SolvingRecordController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<SolvingRecordResponseDto.Response> solveOneWriteQuestion(
             @RequestHeader Long memberId,
-            @RequestBody SolvingRecordRequestDto.CreateWrite solvingRecordRequestDto
+            @RequestParam Long questionId,
+            @RequestParam QuestionResponseType questionResponseType,
+            @RequestBody String answer
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(solvingRecordService.solveOneQuestion(memberId, SolvingRecordRequestDto.CreateMerged.builder()
-                .questionId(solvingRecordRequestDto.getQuestionId())
-                .questionResponseType(solvingRecordRequestDto.getQuestionResponseType())
-                .answer(solvingRecordRequestDto.getAnswer())
+                .questionId(questionId)
+                .questionResponseType(questionResponseType)
+                .answer(answer)
                 .build()));
     }
 
@@ -46,12 +49,13 @@ public class SolvingRecordController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<SolvingRecordResponseDto.Response> solveOneReadQuestion(
             @RequestHeader Long memberId,
-            @RequestPart SolvingRecordRequestDto.CreateRead solvingRecordRequestDto,
+            @RequestParam Long questionId,
+            @RequestParam QuestionResponseType questionResponseType,
             @RequestPart MultipartFile answerFile
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(solvingRecordService.solveOneQuestion(memberId, SolvingRecordRequestDto.CreateMerged.builder()
-                .questionId(solvingRecordRequestDto.getQuestionId())
-                .questionResponseType(solvingRecordRequestDto.getQuestionResponseType())
+                .questionId(questionId)
+                .questionResponseType(questionResponseType)
                 .answerFile(answerFile)
                 .build()));
     }
