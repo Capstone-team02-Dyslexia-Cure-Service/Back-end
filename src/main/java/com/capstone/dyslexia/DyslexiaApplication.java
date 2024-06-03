@@ -13,9 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @EnableConfigurationProperties(LevelRangeConfig.class)
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-@OpenAPIDefinition(servers = {
-		@Server(url = "/", description = "Default Server URL")
-})
 public class DyslexiaApplication {
 
 	public static void main(String[] args) {
