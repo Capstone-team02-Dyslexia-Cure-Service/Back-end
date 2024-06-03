@@ -51,4 +51,4 @@ logging:
       hibernate:
         type:
           descriptor:
-            sql: none
+            sql: error
