@@ -52,35 +52,30 @@ public class TestService {
     public TestResponseDto.Create createTest(Long memberId, Long numOfQuestions) {
         Member member = memberService.memberValidation(memberId);
 
-        EnumMap<QuestionResponseType, Double> probabilities = levelRangeService.getQuestionResponseProbability(member)
-                .orElseThrow(() -> new InternalServerException(INTERNAL_SERVER, "사용자 레벨에 대한 확률 set이 존재하지 않습니다. 관리자에게 문의 바랍니다."));
-
-        List<QuestionResponseDto.GetRandom> questionResponseDtoList = new ArrayList<>();
-
+        Map<Question, QuestionResponseType> questionMap = questionService.randomQuestionListBuilder(member, numOfQuestions);
 
         List<TestQuestionWord> testQuestionWordList = new ArrayList<>();
         List<TestQuestionSentence> testQuestionSentenceList = new ArrayList<>();
 
-        Map<Question, QuestionResponseType> questionMap = questionService.randomQuestionListBuilder(member, numOfQuestions);
+        List<QuestionResponseDto.GetRandom> questionResponseDtoList = new ArrayList<>();
 
-        for (Map.Entry<Question, QuestionResponseType> entry : questionMap.entrySet()) {
-            Question question = entry.getKey();
-            QuestionResponseType questionResponseType = entry.getValue();
-
-            if (questionResponseType.equals(QuestionResponseType.READ_SENTENCE)) {
-                TestQuestionSentence testQuestionSentence = TestQuestionSentence.builder()
-                        .questionSentence((QuestionSentence) question)
-                        .isCorrect(false)
-                        .build();
-                testQuestionSentenceList.add(testQuestionSentence);
-                questionResponseDtoList.add(QuestionResponseDto.GetRandom.from((QuestionSentence) question));
-            } else {
-                TestQuestionWord testQuestionWord = TestQuestionWord.builder()
+        while (!questionMap.isEmpty()) {
+            Question question = questionMap.keySet().iterator().next();
+            questionMap.remove(question);
+            if (question instanceof QuestionWord) {
+                testQuestionWordList.add(TestQuestionWord.builder()
                         .questionWord((QuestionWord) question)
+                        .questionResponseType(questionMap.get(question))
                         .isCorrect(false)
-                        .build();
-                testQuestionWordList.add(testQuestionWord);
-                questionResponseDtoList.add(QuestionResponseDto.GetRandom.from((QuestionWord) question, questionResponseType));
+                        .build());
+                questionResponseDtoList.add(QuestionResponseDto.GetRandom.from((QuestionWord) question, questionMap.get(question)));
+            } else if (question instanceof QuestionSentence) {
+                testQuestionSentenceList.add(TestQuestionSentence.builder()
+                        .questionSentence((QuestionSentence) question)
+                        .questionResponseType(questionMap.get(question))
+                        .isCorrect(false)
+                        .build());
+                questionResponseDtoList.add(QuestionResponseDto.GetRandom.from((QuestionSentence) question));
             }
         }
 
