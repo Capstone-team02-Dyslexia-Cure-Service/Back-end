@@ -34,14 +34,12 @@ public class SolvingRecordController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<SolvingRecordResponseDto.Response> solveOneWriteQuestion(
             @RequestHeader Long memberId,
-            @RequestParam Long questionId,
-            @RequestParam QuestionResponseType questionResponseType,
-            @RequestHeader String answer
+            @RequestBody SolvingRecordRequestDto.AnswerBody answerStringBody
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(solvingRecordService.solveOneQuestion(memberId, SolvingRecordRequestDto.CreateMerged.builder()
-                .questionId(questionId)
-                .questionResponseType(questionResponseType)
-                .answer(answer)
+                .questionId(answerStringBody.getQuestionId())
+                .questionResponseType(answerStringBody.getQuestionResponseType())
+                .answer(answerStringBody.getAnswer())
                 .build()));
     }
 

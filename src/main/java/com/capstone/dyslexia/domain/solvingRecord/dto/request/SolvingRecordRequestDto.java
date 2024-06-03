@@ -47,8 +47,12 @@ public class SolvingRecordRequestDto {
 
     @Getter
     @Builder
-    public static class AnswerStringBody {
+    public static class AnswerBody {
+        private Long questionId;
+
         private String answer;
+
+        private QuestionResponseType questionResponseType;
     }
 
 }
