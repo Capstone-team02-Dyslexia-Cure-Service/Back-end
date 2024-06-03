@@ -31,11 +31,17 @@ spring:
       max-file-size: 200MB
       max-request-size: 215MB
 
+
 server:
   error:
     include-exception: true
     include-stacktrace: always
   port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
 
 logging:
   level:

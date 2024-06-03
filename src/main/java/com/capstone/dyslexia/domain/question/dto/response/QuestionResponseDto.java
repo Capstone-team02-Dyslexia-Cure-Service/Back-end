@@ -67,7 +67,7 @@ public class QuestionResponseDto {
                     .questionType(QuestionType.WORD)
                     .content(questionWord.getContent())
                     .pronunciationFilePath(null)
-                    .videoPath(null)
+                    .videoPath(questionWord.getVideoPath())
                     .questionResponseType(questionResponseType)
                     .build();
         }
