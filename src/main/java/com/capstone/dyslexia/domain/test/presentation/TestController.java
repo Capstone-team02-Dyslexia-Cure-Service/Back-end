@@ -36,7 +36,7 @@ public class TestController {
             @RequestParam Long testId,
             @RequestParam Long questionId,
             @RequestParam QuestionResponseType questionResponseType,
-            @RequestBody String answer
+            @RequestHeader String answer
     ) {
         if (!questionResponseType.equals(QuestionResponseType.SELECT_WORD) && !questionResponseType.equals(QuestionResponseType.WRITE_WORD)) {
             throw new BadRequestException(ErrorCode.INVALID_PARAMETER, "Invalid questionResponseType. It should be SELECT_WORD or WRITE_WORD.");
