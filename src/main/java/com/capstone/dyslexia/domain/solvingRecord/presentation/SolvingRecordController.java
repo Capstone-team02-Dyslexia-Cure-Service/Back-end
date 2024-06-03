@@ -36,13 +36,12 @@ public class SolvingRecordController {
             @RequestHeader Long memberId,
             @RequestParam Long questionId,
             @RequestParam QuestionResponseType questionResponseType,
-            @RequestBody SolvingRecordRequestDto.AnswerStringBody answerStringBody
+            @RequestHeader String answer
     ) {
-        System.out.println(answerStringBody.getAnswer());
         return ResponseEntity.status(HttpStatus.CREATED).body(solvingRecordService.solveOneQuestion(memberId, SolvingRecordRequestDto.CreateMerged.builder()
                 .questionId(questionId)
                 .questionResponseType(questionResponseType)
-                .answer(answerStringBody.getAnswer())
+                .answer(answer)
                 .build()));
     }
 
