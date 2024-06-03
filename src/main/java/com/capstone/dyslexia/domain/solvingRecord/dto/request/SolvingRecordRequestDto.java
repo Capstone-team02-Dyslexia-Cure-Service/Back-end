@@ -45,4 +45,10 @@ public class SolvingRecordRequestDto {
         private MultipartFile answerFile;
     }
 
+    @Getter
+    @Builder
+    public static class AnswerStringBody {
+        private String answer;
+    }
+
 }
