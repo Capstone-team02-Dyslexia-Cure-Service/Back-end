@@ -23,11 +23,11 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    @PostMapping("/create_word")
+    @PostMapping(value = "/create_word", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionResponseDto.CreateWord> createWord(
-            @RequestBody String content,
-            @RequestPart(required = false) MultipartFile videoFile
+            @RequestPart String content,
+            @RequestPart MultipartFile videoFile
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createWord(content, videoFile));
     }
@@ -36,8 +36,8 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionResponseDto.CreateSentence> createSentence(
             @RequestPart String content,
-            @RequestPart(required = false) MultipartFile pronunciationFile,
-            @RequestPart(required = false) MultipartFile videoFile
+            @RequestPart MultipartFile pronunciationFile,
+            @RequestPart MultipartFile videoFile
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createSentence(content, pronunciationFile, videoFile));
     }
