@@ -77,9 +77,7 @@ public class QuestionService {
 
     public List<QuestionResponseDto.GetRandom> getRandomQuestionList(Long memberId, Long numOfQuestions) {
         Member member = memberService.memberValidation(memberId);
-
         List<QuestionResponseDto.GetRandom> questionResponseDtoList = new ArrayList<>();
-
         Map<Question, QuestionResponseType> questionMap = randomQuestionListBuilder(member, numOfQuestions);
 
         while (!questionMap.isEmpty()) {
@@ -97,9 +95,7 @@ public class QuestionService {
 
     public List<QuestionResponseDto.Find> getRandomQuestionEduList(Long memberId, Long numOfQuestions) {
         Member member = memberService.memberValidation(memberId);
-
         List<QuestionResponseDto.Find> questionResponseDtoList = new ArrayList<>();
-
         Map<Question, QuestionResponseType> questionMap = randomQuestionListBuilder(member, numOfQuestions);
 
         while (!questionMap.isEmpty()) {

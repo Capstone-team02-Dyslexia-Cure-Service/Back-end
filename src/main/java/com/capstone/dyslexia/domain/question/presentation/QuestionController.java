@@ -29,7 +29,7 @@ public class QuestionController {
     @PostMapping(value = "/create_word", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionResponseDto.CreateWord> createWord(
-            @RequestPart String content,
+            @RequestHeader String content,
             @RequestPart MultipartFile videoFile
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createWord(content, videoFile));
@@ -38,7 +38,7 @@ public class QuestionController {
     @PostMapping(value = "/create_sentence", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionResponseDto.CreateSentence> createSentence(
-            @RequestPart String content,
+            @RequestHeader String content,
             @RequestPart MultipartFile pronunciationFile,
             @RequestPart MultipartFile videoFile
     ) {

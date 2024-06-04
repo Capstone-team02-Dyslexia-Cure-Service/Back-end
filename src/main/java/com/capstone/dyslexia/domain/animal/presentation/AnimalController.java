@@ -45,7 +45,7 @@ public class AnimalController {
         return animalService.findAllAnimal(memberId);
     }
 
-    @GetMapping
+    @GetMapping("/find")
     @ResponseStatus(HttpStatus.OK)
     public AnimalResponseDto findAnimalById(
             @RequestHeader Long memberId,

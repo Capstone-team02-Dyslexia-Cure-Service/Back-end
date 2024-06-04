@@ -2,6 +2,7 @@ package com.capstone.dyslexia.domain.test.presentation;
 
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.dto.request.SolvingRecordRequestDto;
+import com.capstone.dyslexia.domain.test.dto.TestRequestDto;
 import com.capstone.dyslexia.domain.test.dto.TestResponseDto;
 import com.capstone.dyslexia.domain.test.application.TestService;
 import com.capstone.dyslexia.global.error.ErrorCode;
@@ -34,13 +35,12 @@ public class TestController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> interimSubmitWrite(
             @RequestHeader Long memberId,
-            @RequestParam Long testId,
-            @RequestBody SolvingRecordRequestDto.AnswerBody answerStringBody
+            @RequestBody TestRequestDto.AnswerBody answerStringBody
     ) {
         if (!answerStringBody.getQuestionResponseType().equals(QuestionResponseType.SELECT_WORD) && !answerStringBody.getQuestionResponseType().equals(QuestionResponseType.WRITE_WORD)) {
             throw new BadRequestException(ErrorCode.INVALID_PARAMETER, "Invalid questionResponseType. It should be SELECT_WORD or WRITE_WORD.");
         }
-        return ResponseEntity.ok(testService.interimSubmitWrite(memberId, testId, answerStringBody.getQuestionId(), answerStringBody.getQuestionResponseType(), answerStringBody.getAnswer()));
+        return ResponseEntity.ok(testService.interimSubmitWrite(memberId, answerStringBody.getTestId(), answerStringBody.getQuestionId(), answerStringBody.getQuestionResponseType(), answerStringBody.getAnswer()));
     }
 
     @PostMapping("/interim_submit/read")

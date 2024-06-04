@@ -3,6 +3,7 @@ package com.capstone.dyslexia.domain.testQuestionWord.domain;
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
+import com.capstone.dyslexia.domain.test.domain.Test;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +20,7 @@ public class TestQuestionWord extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private QuestionWord questionWord;
 
     @Column(name = "question_response_type")

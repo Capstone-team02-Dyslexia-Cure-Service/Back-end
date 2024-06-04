@@ -4,11 +4,14 @@ import com.capstone.dyslexia.domain.dateAchievement.application.DateAchievementS
 import com.capstone.dyslexia.domain.level.application.LevelRangeService;
 import com.capstone.dyslexia.domain.member.application.MemberService;
 import com.capstone.dyslexia.domain.member.domain.Member;
+import com.capstone.dyslexia.domain.member.domain.repository.MemberRepository;
 import com.capstone.dyslexia.domain.question.application.QuestionService;
 import com.capstone.dyslexia.domain.question.domain.Question;
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.question.domain.sentence.QuestionSentence;
+import com.capstone.dyslexia.domain.question.domain.sentence.repository.QuestionSentenceRepository;
 import com.capstone.dyslexia.domain.question.domain.word.QuestionWord;
+import com.capstone.dyslexia.domain.question.domain.word.repository.QuestionWordRepository;
 import com.capstone.dyslexia.domain.question.dto.response.QuestionResponseDto;
 import com.capstone.dyslexia.domain.solvingRecord.application.SolvingRecordService;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
@@ -41,7 +44,6 @@ public class TestService {
     private final TestRepository testRepository;
     private final MemberService memberService;
     private final QuestionService questionService;
-    private final LevelRangeService levelRangeService;
     private final TestQuestionWordRepository testQuestionWordRepository;
     private final TestQuestionSentenceRepository testQuestionSentenceRepository;
     private final SolvingRecordRepository solvingRecordRepository;
@@ -61,21 +63,32 @@ public class TestService {
 
         while (!questionMap.isEmpty()) {
             Question question = questionMap.keySet().iterator().next();
-            questionMap.remove(question);
             if (question instanceof QuestionWord) {
-                testQuestionWordList.add(TestQuestionWord.builder()
+                TestQuestionWord testQuestionWord = TestQuestionWord.builder()
                         .questionWord((QuestionWord) question)
                         .questionResponseType(questionMap.get(question))
                         .isCorrect(false)
-                        .build());
+                        .build();
+
+                testQuestionWord = testQuestionWordRepository.save(testQuestionWord);
+                testQuestionWordList.add(testQuestionWord);
+
                 questionResponseDtoList.add(QuestionResponseDto.GetRandom.from((QuestionWord) question, questionMap.get(question)));
+
+                questionMap.remove(question);
             } else if (question instanceof QuestionSentence) {
-                testQuestionSentenceList.add(TestQuestionSentence.builder()
+                TestQuestionSentence testQuestionSentence = TestQuestionSentence.builder()
                         .questionSentence((QuestionSentence) question)
                         .questionResponseType(questionMap.get(question))
                         .isCorrect(false)
-                        .build());
+                        .build();
+
+                testQuestionSentence = testQuestionSentenceRepository.save(testQuestionSentence);
+                testQuestionSentenceList.add(testQuestionSentence);
+
                 questionResponseDtoList.add(QuestionResponseDto.GetRandom.from((QuestionSentence) question));
+
+                questionMap.remove(question);
             }
         }
 
@@ -85,7 +98,7 @@ public class TestService {
                 .testQuestionSentenceList(testQuestionSentenceList)
                 .build();
 
-        testRepository.save(test);
+        test = testRepository.save(test);
 
         return TestResponseDto.Create.from(test, questionResponseDtoList);
     }
