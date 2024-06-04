@@ -11,16 +11,11 @@ spring:
     init:
       mode: never
   jpa:
-    # database-platform: org.hibernate.dialect.MYSQLDialect
-    hibernate:
-      ddl-auto: update
-    # 배포 시엔 open-in-view false 설정
-    open-in-view: true
+    open-in-view: false
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-        # dialect: org.hibernate.dialect.MYSQLDialect
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
