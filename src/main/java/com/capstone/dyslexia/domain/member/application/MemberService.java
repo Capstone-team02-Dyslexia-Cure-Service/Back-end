@@ -145,7 +145,7 @@ public class MemberService {
                 .average()
                 .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER, "member에게 평균 점수가 발견되지 않았습니다."));
 
-        member.updateMemberLevel(averageScore);
+        member = member.updateMemberLevel(averageScore);
 
         memberRepository.save(member);
 

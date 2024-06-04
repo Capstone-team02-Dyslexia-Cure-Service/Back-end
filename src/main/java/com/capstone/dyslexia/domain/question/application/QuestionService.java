@@ -132,23 +132,27 @@ public class QuestionService {
             throw new InternalServerException(INTERNAL_SERVER, "문제 데이터가 부족합니다. 관리자에게 문의 바랍니다.");
         }
 
-        for (int i = 0; i < numOfQuestions; i++) {
+        while (questionMap.size() < numOfQuestions) {
             QuestionResponseType questionResponseType = getRandomQuestionType(probabilities, random);
             Question question = questionResponseType.equals(READ_SENTENCE) ? getRandomQuestionSentence() : getRandomQuestionWord();
 
             if (questionMap.containsKey(question)) {
-                i--;
                 continue;
             }
 
             questionMap.put(
-                    questionResponseType.equals(READ_SENTENCE) ? getRandomQuestionSentence() : getRandomQuestionWord(),
+                    question,
                     questionResponseType
             );
         }
         if (questionMap.isEmpty()) {
             throw new ServiceUnavailableException(DATA_NOT_EXIEST, "해당 문제 타입에 대한 데이터가 존재하지 않습니다.");
         }
+
+        if (questionMap.size() != numOfQuestions) {
+            throw new InternalServerException(INTERNAL_SERVER, "문제 생성에 실패했습니다. 관리자에게 문의 바랍니다.");
+        }
+
         return questionMap;
     }
 

@@ -74,6 +74,7 @@ public class DateAchievementService {
 
     @Transactional
     public List<DateAchievement> addSolvingRecord(List<SolvingRecord> solvingRecordList) {
+
         // 초기화된 dateAchievementList 생성
         List<DateAchievement> dateAchievementList = new ArrayList<>();
 
@@ -81,32 +82,32 @@ public class DateAchievementService {
         for (SolvingRecord solvingRecord : solvingRecordList) {
             LocalDate achievementDate = solvingRecord.getCreatedAt().toLocalDate();
 
+            DateAchievement dateAchievement = dateAchievementRepository.findByAchievementDateAndMember(achievementDate, solvingRecord.getMember())
+                    .orElseGet(() -> {
+                        return DateAchievement.builder()
+                                .member(solvingRecord.getMember())
+                                .achievementDate(achievementDate)
+                                .score(0.0D)
+                                .solvingRecordList(new ArrayList<>())
+                                .build();
+                    });
+
+            if (dateAchievementList.stream().noneMatch(da -> da.getAchievementDate().equals(dateAchievement.getAchievementDate()))) {
+                dateAchievementList.add(dateAchievement);
+            }
+        }
+
+        for (SolvingRecord solvingRecord : solvingRecordList) {
+            LocalDate achievementDate = solvingRecord.getCreatedAt().toLocalDate();
+
             // dateAchievementList에서 해당 날짜의 DateAchievement 찾기
             DateAchievement dateAchievement = dateAchievementList.stream()
                     .filter(da -> da.getAchievementDate().equals(achievementDate))
-                    .findFirst()
-                    .orElseGet(() -> {
-                        // 찾지 못하면 DB에서 해당 날짜의 DateAchievement 찾기
-                        return dateAchievementRepository.findByAchievementDate(achievementDate)
-                                .orElseGet(() -> {
-                                    // DB에도 없으면 새로운 DateAchievement 생성
-                                    DateAchievement newDateAchievement = DateAchievement.builder()
-                                            .member(solvingRecord.getMember())
-                                            .achievementDate(achievementDate)
-                                            .score(0.0D)
-                                            .solvingRecordList(new ArrayList<>())
-                                            .build();
-                                    dateAchievementList.add(newDateAchievement);
-                                    return newDateAchievement;
-                                });
-                    });
+                    .findFirst().orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER, "해당 날짜에 대한 성취도 기록 생성이 실패했습니다."));
 
             // 해당 날짜의 DateAchievement에 solvingRecord 추가
             dateAchievement.getSolvingRecordList().add(solvingRecord);
         }
-
-        // 모든 DateAchievement를 한 번에 저장
-        dateAchievementRepository.saveAll(dateAchievementList);
 
         for (DateAchievement dateAchievement : dateAchievementList) {
             long numSelectWord = countByType(dateAchievement, QuestionResponseType.SELECT_WORD);
@@ -125,7 +126,7 @@ public class DateAchievementService {
             dateAchievement.setScore(score);
         }
 
-        dateAchievementRepository.saveAll(dateAchievementList);
+        dateAchievementList = dateAchievementRepository.saveAll(dateAchievementList);
 
         memberService.updateMemberLevelByDate(dateAchievementList.get(0).getMember(), StaticValue.updateMemberLevelPeriod);
 
@@ -147,9 +148,9 @@ public class DateAchievementService {
     private double calculateScore(long numSelectWord, long numWriteWord, long numReadWord, long numReadSentence,
                                   long numCorrectSelectWord, long numCorrectWriteWord, long numCorrectReadWord, long numCorrectReadSentence) {
         return (numSelectWord == 0 ? 0 : numCorrectSelectWord / (double) numSelectWord) +
-                (numWriteWord == 0 ? 0 : numCorrectWriteWord / (double) numWriteWord) +
-                (numReadWord == 0 ? 0 : numCorrectReadWord / (double) numReadWord) +
-                (numReadSentence == 0 ? 0 : numCorrectReadSentence / (double) numReadSentence);
+                (numWriteWord == 0 ? 0 : 3 * numCorrectWriteWord / (double) numWriteWord) +
+                (numReadWord == 0 ? 0 : 9 * numCorrectReadWord / (double) numReadWord) +
+                (numReadSentence == 0 ? 0 : 27 * numCorrectReadSentence / (double) numReadSentence);
     }
 
 }

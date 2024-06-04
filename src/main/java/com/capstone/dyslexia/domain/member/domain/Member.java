@@ -57,7 +57,8 @@ public class Member extends BaseEntity {
         this.age = memberUpdateRequestDto.getAge();
     }
 
-    public void updateMemberLevel(Double level) {
+    public Member updateMemberLevel(Double level) {
         this.level = level;
+        return this;
     }
 }
