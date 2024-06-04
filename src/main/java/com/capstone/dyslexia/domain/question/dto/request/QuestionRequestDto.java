@@ -2,6 +2,7 @@ package com.capstone.dyslexia.domain.question.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 public class QuestionRequestDto {
 
@@ -9,6 +10,8 @@ public class QuestionRequestDto {
     @Builder
     public static class CreateWord {
         private String content;
+
+        private MultipartFile videoFile;
     }
 
     @Getter
@@ -16,9 +19,9 @@ public class QuestionRequestDto {
     public static class CreateSentence {
         private String content;
 
-        private String pronunciationFilePath;
+        private MultipartFile pronunciationFile;
         
-        private String videoPath;
+        private MultipartFile videoFile;
     }
 
 }

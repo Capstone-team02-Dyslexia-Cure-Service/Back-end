@@ -3,6 +3,7 @@ package com.capstone.dyslexia.domain.question.presentation;
 
 import com.capstone.dyslexia.domain.question.application.QuestionService;
 import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
+import com.capstone.dyslexia.domain.question.dto.request.QuestionRequestDto;
 import com.capstone.dyslexia.domain.question.dto.response.QuestionResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
@@ -11,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -29,20 +27,17 @@ public class QuestionController {
     @PostMapping(value = "/create_word", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionResponseDto.CreateWord> createWord(
-            @RequestParam String content,
-            @RequestPart MultipartFile videoFile
+            @ModelAttribute QuestionRequestDto.CreateWord questionRequestDto
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createWord(content, videoFile));
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createWord(questionRequestDto.getContent(), questionRequestDto.getVideoFile()));
     }
 
     @PostMapping(value = "/create_sentence", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<QuestionResponseDto.CreateSentence> createSentence(
-            @RequestParam String content,
-            @RequestPart MultipartFile pronunciationFile,
-            @RequestPart MultipartFile videoFile
+            @ModelAttribute QuestionRequestDto.CreateSentence questionRequestDto
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createSentence(content, pronunciationFile, videoFile));
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.createSentence(questionRequestDto.getContent(), questionRequestDto.getPronunciationFile(), questionRequestDto.getVideoFile()));
     }
 
 
