@@ -151,9 +151,9 @@ public class TestService {
                     .toList();
             if (testQuestionWordList.size() != 1) {
                 if (testQuestionWordList.isEmpty()) {
-                    throw new BadRequestException(INVALID_PARAMETER, "두 개 이상의 문제가 존재합니다.");
+                    throw new InternalServerException(INTERNAL_SERVER, "해당 문제에 대한 데이터가 존재하지 않습니다.");
                 }
-                throw new InternalServerException(INTERNAL_SERVER, "해당 문제에 대한 데이터가 존재하지 않습니다.");
+                throw new BadRequestException(INVALID_PARAMETER, "두 개 이상의 문제가 존재합니다.");
             }
 
             SolvingRecord solvingRecord = solvingRecordService.createSolvingRecord(memberId, SolvingRecordRequestDto.CreateMerged.builder()
@@ -172,9 +172,9 @@ public class TestService {
 
             if (testQuestionSentenceList.size() != 1) {
                 if (testQuestionSentenceList.isEmpty()) {
-                    throw new BadRequestException(INVALID_PARAMETER, "두 개 이상의 문제가 존재합니다.");
+                    throw new InternalServerException(INTERNAL_SERVER, "해당 문제에 대한 데이터가 존재하지 않습니다.");
                 }
-                throw new InternalServerException(INTERNAL_SERVER, "해당 문제에 대한 데이터가 존재하지 않습니다.");
+                throw new BadRequestException(INVALID_PARAMETER, "두 개 이상의 문제가 존재합니다.");
             }
 
             SolvingRecord solvingRecord = solvingRecordService.createSolvingRecord(memberId, SolvingRecordRequestDto.CreateMerged.builder()
@@ -216,7 +216,7 @@ public class TestService {
                 .filter(solvingRecord -> !solvingRecord.getIsCorrect())
                 .count();
 
-        solvingRecordRepository.saveAll(solvingRecordList);
+        solvingRecordList = solvingRecordRepository.saveAll(solvingRecordList);
 
         dateAchievementService.addSolvingRecord(solvingRecordList);
 

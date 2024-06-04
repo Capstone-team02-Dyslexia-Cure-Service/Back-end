@@ -28,62 +28,62 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {BadRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponseTemplate> handleBadRequestException(BadRequestException exception) {
+    public ErrorResponseTemplate handleBadRequestException(BadRequestException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(exception.getErrorCode().getCode()).body(ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage()));
+        return ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage());
     }
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ConstraintExceptionDto> handleConstraintViolationException(ConstraintViolationException exception) {
+    public ConstraintExceptionDto handleConstraintViolationException(ConstraintViolationException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(ErrorCode.INVALID_PARAMETER.getCode()).body(new ConstraintExceptionDto(ErrorCode.INVALID_PARAMETER, exception.getMessage(), exception));
+        return new ConstraintExceptionDto(ErrorCode.INVALID_PARAMETER, exception.getMessage(), exception);
     }
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponseTemplate> handleIllegalArgumentException(IllegalArgumentException exception) {
+    public ErrorResponseTemplate handleIllegalArgumentException(IllegalArgumentException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(ErrorCode.INVALID_PARAMETER.getCode()).body(ErrorResponseTemplate.error(ErrorCode.INVALID_PARAMETER, exception.getMessage()));
+        return ErrorResponseTemplate.error(ErrorCode.INVALID_PARAMETER, exception.getMessage());
     }
 
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponseTemplate> handleBadHttpRequestMethodException(HttpRequestMethodNotSupportedException exception) {
+    public ErrorResponseTemplate handleBadHttpRequestMethodException(HttpRequestMethodNotSupportedException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(ErrorCode.INVALID_PARAMETER.getCode()).body(ErrorResponseTemplate.error(ErrorCode.INVALID_PARAMETER, "Invalid request http method (GET, POST, PUT, DELETE)"));
+        return ErrorResponseTemplate.error(ErrorCode.INVALID_PARAMETER, "Invalid request http method (GET, POST, PUT, DELETE)");
     }
 
     @ExceptionHandler(value = {UnauthorizedException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<ErrorResponseTemplate> handleUnauthorizedException(UnauthorizedException exception) {
+    public ErrorResponseTemplate handleUnauthorizedException(UnauthorizedException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(exception.getErrorCode().getCode()).body(ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage()));
+        return ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage());
     }
 
     @ExceptionHandler(value = {ServiceUnavailableException.class})
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    public ResponseEntity<ErrorResponseTemplate> handleServiceUnavailableException(ServiceUnavailableException exception) {
+    public ErrorResponseTemplate handleServiceUnavailableException(ServiceUnavailableException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(exception.getErrorCode().getCode()).body(ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage()));
+        return ErrorResponseTemplate.error(exception.getErrorCode(), exception.getMessage());
     }
 
     @ExceptionHandler(value = {AccessDeniedException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<ErrorResponseTemplate> handleAccessDeniedException(AccessDeniedException exception) {
+    public ErrorResponseTemplate handleAccessDeniedException(AccessDeniedException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(ErrorCode.API_NOT_ACCESSIBLE.getCode()).body(ErrorResponseTemplate.error(ErrorCode.API_NOT_ACCESSIBLE, exception.getMessage()));
+        return ErrorResponseTemplate.error(ErrorCode.API_NOT_ACCESSIBLE, exception.getMessage());
     }
 
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorResponseTemplate> unknownException(Exception exception) {
+    public ErrorResponseTemplate unknownException(Exception exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
-        return ResponseEntity.status(ErrorCode.INTERNAL_SERVER.getCode()).body(ErrorResponseTemplate.error(ErrorCode.INTERNAL_SERVER, exception.getMessage()));
+        return ErrorResponseTemplate.error(ErrorCode.INTERNAL_SERVER, exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseTemplate> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ErrorResponseTemplate handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         GlobalExceptionHandler.log.error("[Error message]", exception);
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
@@ -91,6 +91,6 @@ public class GlobalExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(filedName, errorMessage);
         });
-        return ResponseEntity.status(ErrorCode.INVALID_PARAMETER.getCode()).body(ErrorResponseTemplate.error(ErrorCode.INVALID_PARAMETER, "Request Argument가 유효하지 않습니다. 세부 사항은 Response Data를 확인하세요.", errors));
+        return ErrorResponseTemplate.error(ErrorCode.INVALID_PARAMETER, "Request Argument가 유효하지 않습니다. 세부 사항은 Response Data를 확인하세요.", errors);
     }
 }

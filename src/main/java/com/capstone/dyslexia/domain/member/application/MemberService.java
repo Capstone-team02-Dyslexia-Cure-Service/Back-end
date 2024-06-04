@@ -129,21 +129,21 @@ public class MemberService {
     }
 
     @Transactional
-    public Member updateMemberLevel(Member member) {
+    public Member updateMemberLevelByDate(Member member, int numOfDays) {
         List<DateAchievement> dateAchievementList =
                 dateAchievementRepository.findTopByMemberOrderByAchievementDateDesc(
                         member,
-                        PageRequest.of(0, 7)
+                        PageRequest.of(0, numOfDays)
                 ).getContent();
 
         if (dateAchievementList.isEmpty()) {
-            throw new InternalServerException(ErrorCode.INTERNAL_SERVER, "No achievements found for the member.");
+            throw new InternalServerException(ErrorCode.INTERNAL_SERVER, "member에게 dateAchievement record가 존재하지 않습니다.");
         }
 
         Double averageScore = dateAchievementList.stream()
                 .mapToDouble(DateAchievement::getScore)
                 .average()
-                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER, "No average score found for the member."));
+                .orElseThrow(() -> new InternalServerException(ErrorCode.INTERNAL_SERVER, "member에게 평균 점수가 발견되지 않았습니다."));
 
         member.updateMemberLevel(averageScore);
 

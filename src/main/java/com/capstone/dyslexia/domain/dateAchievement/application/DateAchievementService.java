@@ -10,6 +10,7 @@ import com.capstone.dyslexia.domain.question.domain.QuestionResponseType;
 import com.capstone.dyslexia.domain.solvingRecord.domain.SolvingRecord;
 import com.capstone.dyslexia.global.error.ErrorCode;
 import com.capstone.dyslexia.global.error.exceptions.InternalServerException;
+import com.capstone.dyslexia.global.util.StaticValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -125,6 +126,8 @@ public class DateAchievementService {
         }
 
         dateAchievementRepository.saveAll(dateAchievementList);
+
+        memberService.updateMemberLevelByDate(dateAchievementList.get(0).getMember(), StaticValue.updateMemberLevelPeriod);
 
         return dateAchievementList;
     }
