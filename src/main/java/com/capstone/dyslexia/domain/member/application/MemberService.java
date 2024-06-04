@@ -1,5 +1,8 @@
 package com.capstone.dyslexia.domain.member.application;
 
+import com.capstone.dyslexia.domain.animal.domain.Animal;
+import com.capstone.dyslexia.domain.animal.domain.AnimalType;
+import com.capstone.dyslexia.domain.animal.domain.repository.AnimalRepository;
 import com.capstone.dyslexia.domain.dateAchievement.domain.DateAchievement;
 import com.capstone.dyslexia.domain.dateAchievement.domain.repository.DateAchievementRepository;
 import com.capstone.dyslexia.domain.member.domain.Member;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.capstone.dyslexia.global.error.ErrorCode.INVALID_SIGNIN;
@@ -33,11 +37,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
     private final DateAchievementRepository dateAchievementRepository;
+    private final AnimalRepository animalRepository;
 
     @Transactional
     public MemberResponseDto signUp(MemberSignUpRequestDto memberSignUpRequestDto) {
-        Store store = Store.builder().build();
-
         if (memberRepository.findByEmail(memberSignUpRequestDto.getEmail()).isPresent()) {
             throw new BadRequestException(ROW_DOES_NOT_EXIST, "이미 존재하는 이메일입니다.");
         }
@@ -47,16 +50,30 @@ public class MemberService {
                 .password(memberSignUpRequestDto.getPassword())
                 .name(memberSignUpRequestDto.getName())
                 .age(memberSignUpRequestDto.getAge())
-                .store(store)
                 .level(1.0)
                 .build();
 
-        memberRepository.save(member);
-        storeRepository.save(store.setMember(member));
+        member = memberRepository.save(member);
+
+        Store store = Store.builder()
+                .member(member)
+                .build();
+
+        store = storeRepository.save(store);
+
+        Animal animal = Animal.builder()
+                .animalType(AnimalType.PENGUIN)
+                .nickname(AnimalType.PENGUIN.toString())
+                .hungerTimer(LocalDateTime.now().plusDays(1))
+                .store(store)
+                .build();
+
+        animalRepository.save(animal);
 
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .email(member.getEmail())
+                .password(member.getPassword())
                 .name(member.getName())
                 .age(member.getAge())
                 .level(member.getLevel())
