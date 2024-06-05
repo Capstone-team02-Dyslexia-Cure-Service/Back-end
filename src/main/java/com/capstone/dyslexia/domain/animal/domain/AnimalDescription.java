@@ -1,13 +1,14 @@
 package com.capstone.dyslexia.domain.animal.domain;
 
+import com.capstone.dyslexia.global.util.StaticValue;
 import lombok.Getter;
 
 @Getter
 public enum AnimalDescription {
-    DOLPHIN_DESCRIPTION("돌고래 동물 설명"),
-    SEAL_DESCRIPTION("물개 동물 설명"),
-    PENGUIN_DESCRIPTION("펭귄 동물 설명"),
-    MONKEY_DESCRIPTION("원숭이 동물 설명");
+    DOLPHIN_DESCRIPTION(StaticValue.dolphinDescription),
+    SEAL_DESCRIPTION(StaticValue.sealDescription),
+    PENGUIN_DESCRIPTION(StaticValue.penguinDescription),
+    MONKEY_DESCRIPTION(StaticValue.monkeyDescription);
 
     private final String description;
 
