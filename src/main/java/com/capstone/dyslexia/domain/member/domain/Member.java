@@ -8,7 +8,6 @@ import com.capstone.dyslexia.domain.test.domain.Test;
 import com.capstone.dyslexia.global.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 
@@ -36,6 +35,9 @@ public class Member extends BaseEntity {
     @Column(name = "age")
     private Integer age;
 
+    @Column(name = "is_evaluated")
+    private Boolean isEvaluated;
+
     @Column(name = "level")
     private Double level;
 
@@ -58,6 +60,7 @@ public class Member extends BaseEntity {
     }
 
     public Member updateMemberLevel(Double level) {
+        this.isEvaluated = true;
         this.level = level;
         return this;
     }

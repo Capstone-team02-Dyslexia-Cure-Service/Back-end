@@ -50,6 +50,7 @@ public class MemberService {
                 .password(memberSignUpRequestDto.getPassword())
                 .name(memberSignUpRequestDto.getName())
                 .age(memberSignUpRequestDto.getAge())
+                .isEvaluated(false)
                 .level(1.0)
                 .build();
 
@@ -76,6 +77,7 @@ public class MemberService {
                 .password(member.getPassword())
                 .name(member.getName())
                 .age(member.getAge())
+                .isEvaluated(member.getIsEvaluated())
                 .level(member.getLevel())
                 .build();
     }
@@ -93,6 +95,7 @@ public class MemberService {
                 .email(member.getEmail())
                 .name(member.getName())
                 .age(member.getAge())
+                .isEvaluated(member.getIsEvaluated())
                 .level(member.getLevel())
                 .build();
     }
@@ -119,6 +122,7 @@ public class MemberService {
                 .password(member.getPassword())
                 .name(member.getName())
                 .age(member.getAge())
+                .isEvaluated(member.getIsEvaluated())
                 .level(member.getLevel())
                 .build();
     }
