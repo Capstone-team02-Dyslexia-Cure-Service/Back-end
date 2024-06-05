@@ -112,8 +112,14 @@ public class QuestionService {
     }
 
     public Map<Question, QuestionResponseType> randomQuestionListBuilder(Member member, Long numOfQuestions) {
-        EnumMap<QuestionResponseType, Double> probabilities = levelRangeService.getQuestionResponseProbability(member)
-                .orElseThrow(() -> new InternalServerException(INTERNAL_SERVER, "사용자 레벨에 대한 확률 set이 존재하지 않습니다. 관리자에게 문의 바랍니다."));
+        EnumMap<QuestionResponseType, Double> probabilities;
+        if (member.getIsEvaluated().equals(false)) {
+            probabilities = levelRangeService.getBasicTestQuestionResponseProbability()
+                    .orElseThrow(() -> new InternalServerException(INTERNAL_SERVER, "사용자 레벨에 대한 확률 set이 존재하지 않습니다. 관리자에게 문의 바랍니다."));
+        } else {
+            probabilities = levelRangeService.getQuestionResponseProbability(member)
+                    .orElseThrow(() -> new InternalServerException(INTERNAL_SERVER, "사용자 레벨에 대한 확률 set이 존재하지 않습니다. 관리자에게 문의 바랍니다."));
+        }
 
         Map<Question, QuestionResponseType> questionMap = new HashMap<>();
         Random random = new Random();

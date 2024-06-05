@@ -18,6 +18,8 @@ public class LevelRangeConfig {
 
     private List<LevelRange> levelRangeList;
 
+
+
     @Getter
     @Setter
     public static class LevelRange {

@@ -28,3 +28,10 @@ level-ranges:
         WRITE_WORD: 0.05
         READ_WORD: 0.15
         READ_SENTENCE: 0.8
+
+basic-test:
+  probabilities:
+    SELECT_WORD: 0.25
+    WRITE_WORD: 0.25
+    READ_WORD: 0.25
+    READ_SENTENCE: 0.25
