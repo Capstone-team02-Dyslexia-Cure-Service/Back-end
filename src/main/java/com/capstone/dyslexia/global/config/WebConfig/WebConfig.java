@@ -1,6 +1,6 @@
 package com.capstone.dyslexia.global.config.WebConfig;
 
-import com.capstone.dyslexia.global.util.SecretStaticValue;
+import com.capstone.dyslexia.global.util.SecretValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,21 +10,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final SecretStaticValue secretStaticValue;
+    private final SecretValue secretValue;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping(secretStaticValue.getAddMapping())
+        registry.addMapping(secretValue.getAddMapping())
                 .allowedOrigins(
-                        secretStaticValue.getAllowedOrigins().values().toArray(new String[0])
+                        secretValue.getAllowedOrigins().values().toArray(new String[0])
                 )
                 .allowedMethods(
-                        secretStaticValue.getAllowedMethods().toArray(new String[0])
+                        secretValue.getAllowedMethods().toArray(new String[0])
                 )
                 .allowedHeaders(
-                        secretStaticValue.getAllowedHeaders().toArray(new String[0])
+                        secretValue.getAllowedHeaders().toArray(new String[0])
                 )
-                .allowCredentials(secretStaticValue.isAllowCredentials())
-                .maxAge(secretStaticValue.getMaxAge());
+                .allowCredentials(secretValue.isAllowCredentials())
+                .maxAge(secretValue.getMaxAge());
     }
 }
