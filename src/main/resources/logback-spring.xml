@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-
-    <springProperty name="DISCORD_WEBHOOK_URL" source="logging.discord.webhook-uri"/>
+<configuration debug="true">
+    <!--Discord Log-->
+    <springProperty name="DISCORD_WEBHOOK_URI" source="logging.discord.webhook-uri"/>
     <appender name="DISCORD" class="com.github.napstr.logback.DiscordAppender">
-        <webhookUri>${DISCORD_WEBHOOK_URL}</webhookUri>
+        <webhookUri>${DISCORD_WEBHOOK_URI}</webhookUri>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{HH:mm:ss} [%thread] [%-5level] %logger{36} - %msg%n```%ex{full}```</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
         </layout>
-        <username>BACKEND-ERROR!</username>
+        <username>Spring-Server-log</username>
+        <avatarUrl>https://img.freepik.com/premium-photo/server-logs-analysis-closeup-developing-programming-and-coding-technologies-developer-working-on-web-sites-codes-in-office_372999-779.jpg</avatarUrl>
         <tts>false</tts>
     </appender>
 
+    <!--Consol appender 설정-->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
-            <charset>utf8</charset>
+            <Pattern>%d %-5level %logger{35} - %msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -26,8 +26,9 @@
         </filter>
     </appender>
 
+    <!--로그 레벨 지정-->
     <root level="INFO">
-        <appender-ref ref="ASYNC_DISCORD"/>
         <appender-ref ref="Console"/>
+        <appender-ref ref="ASYNC_DISCORD" />
     </root>
 </configuration>

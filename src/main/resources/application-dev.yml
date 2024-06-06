@@ -37,13 +37,3 @@ server:
       charset: UTF-8
       force: true
       enabled: true
-
-logging:
-  level:
-    #root: DEBUG
-    #org.springframework.boot.context.properties: DEBUG
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: error
