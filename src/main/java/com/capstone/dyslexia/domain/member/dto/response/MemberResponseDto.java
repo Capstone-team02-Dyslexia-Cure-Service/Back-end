@@ -28,4 +28,7 @@ public class MemberResponseDto {
     @Schema
     private Double level;
 
+    @Schema
+    private Boolean isEvaluated;
+
 }

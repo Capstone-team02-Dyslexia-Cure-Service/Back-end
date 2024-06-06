@@ -56,6 +56,10 @@ public class TestService {
 
         Map<Question, QuestionResponseType> questionMap = questionService.randomQuestionListBuilder(member, numOfQuestions);
 
+        if (questionMap.size() != numOfQuestions) {
+            throw new InternalServerException(INTERNAL_SERVER, "문제를 생성 후 전달하는 도중 오류가 발생했습니다.");
+        }
+
         List<TestQuestionWord> testQuestionWordList = new ArrayList<>();
         List<TestQuestionSentence> testQuestionSentenceList = new ArrayList<>();
 
