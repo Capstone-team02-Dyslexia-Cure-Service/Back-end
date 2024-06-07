@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static com.capstone.dyslexia.global.error.ErrorCode.FILE_UPLOAD_FAIL;
 
@@ -26,7 +29,13 @@ public class AmazonS3Manager {
     private final AwsS3Config awsS3Config;
 
     public String uploadFile(String keyName, MultipartFile file) {
+        Path directory = Paths.get(keyName);
         File filePath = new File(keyName);
+        try {
+            Files.createDirectory(directory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             FileOutputStream fos = new FileOutputStream(filePath, true);
         } catch (Exception e) {
