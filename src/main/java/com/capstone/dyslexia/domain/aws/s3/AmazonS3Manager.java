@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,17 +30,13 @@ public class AmazonS3Manager {
     private final AwsS3Config awsS3Config;
 
     public String uploadFile(String keyName, MultipartFile file) {
-        Path directory = Paths.get(keyName);
-        File filePath = new File(keyName);
+
+        String localDirectory = "/path/to/";
+        Path localPath = Paths.get(localDirectory, keyName);
         try {
-            Files.createDirectory(directory);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            FileOutputStream fos = new FileOutputStream(filePath, true);
-        } catch (Exception e) {
-            e.printStackTrace();
+            saveFileToLocalDisk(localPath, file);
+        } catch (IOException e) {
+            throw new InternalServerException(FILE_UPLOAD_FAIL, "로컬에 file upload를 실패했습니다: " + e.getMessage());
         }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -51,6 +48,18 @@ public class AmazonS3Manager {
         }
 
         return amazonS3.getUrl(awsS3Config.getBucket(), keyName).toString();
+    }
+
+    private void saveFileToLocalDisk(Path path, MultipartFile file) throws IOException {
+        // 디렉토리가 존재하지 않으면 생성
+        if (Files.notExists(path.getParent())) {
+            Files.createDirectories(path.getParent());
+        }
+
+        // 파일 저장
+        try (FileOutputStream fos = new FileOutputStream(path.toFile())) {
+            fos.write(file.getBytes());
+        }
     }
 
 
