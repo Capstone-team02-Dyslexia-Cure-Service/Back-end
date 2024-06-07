@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import static com.capstone.dyslexia.global.error.ErrorCode.FILE_UPLOAD_FAIL;
 
 @Slf4j
@@ -23,6 +26,13 @@ public class AmazonS3Manager {
     private final AwsS3Config awsS3Config;
 
     public String uploadFile(String keyName, MultipartFile file) {
+        File filePath = new File(keyName);
+        try {
+            FileOutputStream fos = new FileOutputStream(filePath, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         try {
