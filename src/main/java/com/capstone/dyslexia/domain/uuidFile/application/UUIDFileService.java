@@ -27,8 +27,8 @@ public class UUIDFileService {
 
         String fileName = path + uuid;
 
-        if (!fileExtension.isEmpty())
-            fileName = fileName + fileExtension;
+//        if (!fileExtension.isEmpty())
+//            fileName = fileName + fileExtension;
 
         String fileS3Url = amazonS3Manager.uploadFile(fileName, file);
 
