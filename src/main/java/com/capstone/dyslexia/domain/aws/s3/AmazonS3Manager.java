@@ -11,12 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static com.capstone.dyslexia.global.error.ErrorCode.FILE_UPLOAD_FAIL;
 
@@ -31,13 +29,13 @@ public class AmazonS3Manager {
 
     public String uploadFile(String keyName, MultipartFile file) {
 
-        String localDirectory = "/path/to/";
-        Path localPath = Paths.get(localDirectory, keyName);
-        try {
-            saveFileToLocalDisk(localPath, file);
-        } catch (IOException e) {
-            throw new InternalServerException(FILE_UPLOAD_FAIL, "로컬에 file upload를 실패했습니다: " + e.getMessage());
-        }
+//        String localDirectory = "/path/to/fe_files/";
+//        Path localPath = Paths.get(localDirectory, keyName);
+//        try {
+//            saveFileToLocalDisk(localPath, file);
+//        } catch (IOException e) {
+//            throw new InternalServerException(FILE_UPLOAD_FAIL, "로컬에 file upload를 실패했습니다: " + e.getMessage());
+//        }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());

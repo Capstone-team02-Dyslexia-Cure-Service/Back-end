@@ -38,7 +38,7 @@ public class AnimalService {
 
         Animal animal = Animal.builder()
                 .animalType(animalType)
-                .nickname(animalType.toString())
+                .nickname(animalType.getAnimalDefaultNickName().toString())
                 .hungerTimer(LocalDateTime.now().plusDays(1))
                 .store(member.getStore())
                 .build();
