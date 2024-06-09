@@ -64,7 +64,7 @@ public class MemberService {
 
         Animal animal = Animal.builder()
                 .animalType(AnimalType.PENGUIN)
-                .nickname(AnimalType.PENGUIN.toString())
+                .nickname(AnimalType.PENGUIN.getAnimalDefaultNickName().getDefaultNickName())
                 .hungerTimer(LocalDateTime.now().plusDays(1))
                 .store(store)
                 .build();
