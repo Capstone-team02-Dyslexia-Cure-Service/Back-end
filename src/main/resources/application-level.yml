@@ -25,9 +25,9 @@ level-ranges:
       max: 1000.0
       probabilities:
         SELECT_WORD: 0.0
-        WRITE_WORD: 0.05
-        READ_WORD: 0.15
-        READ_SENTENCE: 0.8
+        WRITE_WORD: 0.0
+        READ_WORD: 0.0
+        READ_SENTENCE: 1.0
 
 basic-test:
   probabilities:
