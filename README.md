@@ -1,4 +1,4 @@
-# English
+# - English
 # Dyslexia-Zoo
 ### Introduction
 Dyslexia-Zoo is a capstone design project at the Chung-Ang University's Department of Software Engineering. Please note that we will not be accepting contributions for Dyslexia-Zoo, as it is a Capstone Design Project.
@@ -35,80 +35,82 @@ Dyslexia in which a person has no difficulty reading words but has poor fluency 
 1. Install jdk 17
 2. Run MySQL
 3. Create gitignore file - `application-aws.yml` in to `src\main\resources`. Each private variable(eg. `spring.datasource.datasource.url`) should have an appropriate value.
+   </br>
    ![image](https://github.com/Capstone-team02-Dyslexia-Cure-Service/Dyslexia-BE/assets/53044223/8300b330-c820-423c-a80a-a33568f1c4b3)
+   </br>
    - `application-aws.yml`
-```
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: YOUR_MYSQL_ENDPOINT
-    username: YOUR_MYSQL_USER_NAME
-    password: YOUR_MYSQL_PASSWD
-
-# 환경 변수
-cloud:
-  aws:
-    credentials:
-      accessKey: YOUR_AWS_ACCESS_KEY
-      secretKey: YOUR_AWS_SECRET_KEY
-    region:
-      static: ap-northeast-2  # seoul region
-    s3:
-      bucket: YOUR_S3_BUCKET_NAME
-      # you should configure s3 bucket directory as below
-      path:
-        pronunciation: pronunciation
-        video: video
-        submission: submission
-
-flask:
-  api:
-    url: YOUR_ML_SERVER_IP_ADDR
-
-logging:
-  discord:
-    webhook-uri: YOUR_DISCORD_WEB_HOOK_URL
-  config: classpath:logback-spring.xml
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: error
-
-
-
-cors:
-  add-mapping: /**
-  allowed-origins:
-    allowed-origin-localhost-1st: YOUR_1ST_ALLOWED_ORIGIN
-    allowed-origin-localhost-2nd: YOUR_2ST_ALLOWED_ORIGIN
-    allowed-origin-frontend: YOUR_FRONT-END_WS_ALLOWED_ORIGIN
-  allowed-methods:
-    - GET
-    - POST
-    - PUT
-    - DELETE
-    - OPTIONS
-  allowed-headers:
-    - Origin
-    - X-Requested-With
-    - Content-Type
-    - Accept
-    - Authorization
-    - memberId
-    - animalId
-    - numOfQuestions
-    - solvingRecordId
-    - questionId
-    - questionResponseType
-    - questionType
-  allow-credentials: true
-  max-age: 3600
-
-```
+      ```
+      spring:
+        datasource:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: YOUR_MYSQL_ENDPOINT
+          username: YOUR_MYSQL_USER_NAME
+          password: YOUR_MYSQL_PASSWD
+      
+      # 환경 변수
+      cloud:
+        aws:
+          credentials:
+            accessKey: YOUR_AWS_ACCESS_KEY
+            secretKey: YOUR_AWS_SECRET_KEY
+          region:
+            static: ap-northeast-2  # seoul region
+          s3:
+            bucket: YOUR_S3_BUCKET_NAME
+            # you should configure s3 bucket directory as below
+            path:
+              pronunciation: pronunciation
+              video: video
+              submission: submission
+      
+      flask:
+        api:
+          url: YOUR_ML_SERVER_IP_ADDR
+      
+      logging:
+        discord:
+          webhook-uri: YOUR_DISCORD_WEB_HOOK_URL
+        config: classpath:logback-spring.xml
+        level:
+          org:
+            hibernate:
+              type:
+                descriptor:
+                  sql: error
+      
+      
+      
+      cors:
+        add-mapping: /**
+        allowed-origins:
+          allowed-origin-localhost-1st: YOUR_1ST_ALLOWED_ORIGIN
+          allowed-origin-localhost-2nd: YOUR_2ST_ALLOWED_ORIGIN
+          allowed-origin-frontend: YOUR_FRONT-END_WS_ALLOWED_ORIGIN
+        allowed-methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        allowed-headers:
+          - Origin
+          - X-Requested-With
+          - Content-Type
+          - Accept
+          - Authorization
+          - memberId
+          - animalId
+          - numOfQuestions
+          - solvingRecordId
+          - questionId
+          - questionResponseType
+          - questionType
+        allow-credentials: true
+        max-age: 3600
+      
+      ```
 ---
-# 한글
+# - 한글
 # Dyslexia-Zoo
 ### 소개
 Dyslexia-Zoo는 중앙대학교 소프트웨어공학부의 캡스톤 디자인 프로젝트입니다. Dyslexia-Zoo는 캡스톤 디자인 프로젝트이기 때문에 기부금을 받지 않습니다.
