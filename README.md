@@ -109,7 +109,7 @@ Dyslexia in which a person has no difficulty reading words but has poor fluency 
         max-age: 3600
       
       ```
-   5. Run main method in DyslexiaApplication.java!
+5. Run main method in DyslexiaApplication.java!
 ---
 # - 한글
 # Dyslexia-Zoo
@@ -221,4 +221,4 @@ Dyslexia-Zoo는 중앙대학교 소프트웨어공학부의 캡스톤 디자인 
         max-age: 3600
       
       ```
-   5. DyslexiaApplication.java에 main method 실행!
+5. DyslexiaApplication.java에 main method 실행!
