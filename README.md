@@ -109,6 +109,7 @@ Dyslexia in which a person has no difficulty reading words but has poor fluency 
         max-age: 3600
       
       ```
+   5. Run main method in DyslexiaApplication.java!
 ---
 # - 한글
 # Dyslexia-Zoo
@@ -142,3 +143,82 @@ Dyslexia-Zoo는 중앙대학교 소프트웨어공학부의 캡스톤 디자인 
    * Dyslexia Zoo ML Model(jupyterNodtebook)
 * [Dyslexia-Zoo-ML Server] (https://github.com/Capstone-team02-Dyslexia-Cure-Service/Dyslexia-Ml-Server)
    * Dyslexia Zoo ML Server(Flask)
+# 실행 방법
+1. jdk 17 설치
+2. MySQL 실행
+3. `src\main\resources`에 gitignore file - `application-aws.yml` 만들기. yml파일 내에 private 변수(eg. `spring.datasource.datasource.url`)에 적절한 값 넣어주기.
+   </br>
+   ![image](https://github.com/Capstone-team02-Dyslexia-Cure-Service/Dyslexia-BE/assets/53044223/8300b330-c820-423c-a80a-a33568f1c4b3)
+   </br>
+   - `application-aws.yml`
+      ```
+      spring:
+        datasource:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: YOUR_MYSQL_ENDPOINT
+          username: YOUR_MYSQL_USER_NAME
+          password: YOUR_MYSQL_PASSWD
+      
+      # 환경 변수
+      cloud:
+        aws:
+          credentials:
+            accessKey: YOUR_AWS_ACCESS_KEY
+            secretKey: YOUR_AWS_SECRET_KEY
+          region:
+            static: ap-northeast-2  # seoul region
+          s3:
+            bucket: YOUR_S3_BUCKET_NAME
+            # you should configure s3 bucket directory as below
+            path:
+              pronunciation: pronunciation
+              video: video
+              submission: submission
+      
+      flask:
+        api:
+          url: YOUR_ML_SERVER_IP_ADDR
+      
+      logging:
+        discord:
+          webhook-uri: YOUR_DISCORD_WEB_HOOK_URL
+        config: classpath:logback-spring.xml
+        level:
+          org:
+            hibernate:
+              type:
+                descriptor:
+                  sql: error
+      
+      
+      
+      cors:
+        add-mapping: /**
+        allowed-origins:
+          allowed-origin-localhost-1st: YOUR_1ST_ALLOWED_ORIGIN
+          allowed-origin-localhost-2nd: YOUR_2ST_ALLOWED_ORIGIN
+          allowed-origin-frontend: YOUR_FRONT-END_WS_ALLOWED_ORIGIN
+        allowed-methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        allowed-headers:
+          - Origin
+          - X-Requested-With
+          - Content-Type
+          - Accept
+          - Authorization
+          - memberId
+          - animalId
+          - numOfQuestions
+          - solvingRecordId
+          - questionId
+          - questionResponseType
+          - questionType
+        allow-credentials: true
+        max-age: 3600
+      
+      ```
+   5. DyslexiaApplication.java에 main method 실행!
